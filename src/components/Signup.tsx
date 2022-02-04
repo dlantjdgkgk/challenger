@@ -7,17 +7,12 @@ const Signup = () => {
     const [email, setEmail] = useState('');
     const [number, setNumber] = useState('');
     const [name, setName] = useState('');
-    const [pw, setPw] = useState('');
+    const [password, setpassword] = useState('');
     const [repeatPw, setRepeatPw] = useState('');
     const [validEmail, setValidEmail] = useState('');
     const [validPassword, setValidPassword] = useState('');
     const [coincidePw, setCoincidePw] = useState('');
-    const [url, setUrl] = useState('');
     const [res, setRes] = useState(null);
-
-    useEffect(() => {
-        setUrl('https://api.mooseong.net/users');
-    }, []);
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -27,6 +22,7 @@ const Signup = () => {
             setValidEmail('');
         }
     };
+
     const handleNumber = (e) => {
         setNumber(e.target.value);
     };
@@ -34,7 +30,7 @@ const Signup = () => {
         setName(e.target.value);
     };
     const handlePw = (e) => {
-        setPw(e.target.value);
+        setpassword(e.target.value);
         if (!isValidPassword(e.target.value)) {
             setValidPassword('올바른 비밀번호 형식이 아닙니다');
         } else {
@@ -43,7 +39,7 @@ const Signup = () => {
     };
     const handleRepeatPw = (e) => {
         setRepeatPw(e.target.value);
-        if (pw !== e.target.value) {
+        if (password !== e.target.value) {
             setCoincidePw('입력한 비밀번호와 일치하지 않습니다');
         } else {
             setCoincidePw('');
@@ -56,15 +52,11 @@ const Signup = () => {
             alert('email을 입력해주세요');
             return;
         }
-        if (number === '') {
-            alert('휴대폰 번호를 입력해주세요');
-            return;
-        }
         if (name === '') {
             alert('이름을 입력해주세요');
             return;
         }
-        if (pw === '') {
+        if (password === '') {
             alert('비밀번호를 입력해주세요');
             return;
         }
@@ -75,7 +67,7 @@ const Signup = () => {
         setEmail('');
         setNumber('');
         setName('');
-        setPw('');
+        setpassword('');
         setRepeatPw('');
         signupAPI();
     };
@@ -84,10 +76,13 @@ const Signup = () => {
         const payload = {
             email: email,
             name: name,
-            password: pw,
-            phoneNumber: number,
+            password: password,
+            // repeatPassword: repeatPw,
         };
-        const signup = await axios.post(url, payload);
+        const signup = await axios.post(
+            'http://3.35.70.93:8080/users',
+            payload
+        );
         Router.push('/login');
         setRes(signup);
     };
@@ -106,7 +101,14 @@ const Signup = () => {
     return (
         <>
             <Form onSubmit={handleSubmit}>
-                <h3>회원 가입 페이지</h3>
+                <img
+                    src='/create.PNG'
+                    width='200'
+                    height='200'
+                    alt='My Image'
+                    className='title'
+                ></img>
+                <h3>회원가입</h3>
                 <input
                     id='email'
                     type='text'
@@ -119,15 +121,7 @@ const Signup = () => {
                 <br />
                 <input
                     type='text'
-                    placeholder='휴대폰 번호 입력'
-                    value={number}
-                    onChange={handleNumber}
-                />
-                <br />
-                <br />
-                <input
-                    type='text'
-                    placeholder='이름 입력'
+                    placeholder='닉네임 입력'
                     value={name}
                     onChange={handleName}
                 />
@@ -137,7 +131,7 @@ const Signup = () => {
                     id='pw'
                     type='password'
                     placeholder='비밀번호 입력'
-                    value={pw}
+                    value={password}
                     onChange={handlePw}
                 />
                 <span>{validPassword}</span>

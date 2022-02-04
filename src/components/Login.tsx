@@ -4,10 +4,11 @@ import Link from 'next/link';
 import axios from 'axios';
 import Router from 'next/router';
 import { useCookies } from 'react-cookie';
+import jwt from 'jsonwebtoken';
 
 const Login = () => {
     const [email, setEmail] = useState('');
-    const [pw, setPw] = useState('');
+    const [password, setPassword] = useState('');
     const [res, setRes] = useState(null);
     const [url, setUrl] = useState('');
     const [cookies, setCookie] = useCookies([]);
@@ -15,12 +16,13 @@ const Login = () => {
     useEffect(() => {
         if (res?.data?.result) {
             setCookie('token', `Bearer ${res?.data?.result}`);
+            console.log(res?.data?.result);
+            console.log(jwt.decode(res?.data?.result));
         }
     }, [res?.data?.result]);
-    console.log(cookies);
 
     useEffect(() => {
-        setUrl('https://api.mooseong.net/login');
+        setUrl('http://3.35.70.93:8080/login');
     }, []);
 
     const handleEmail = (e) => {
@@ -28,35 +30,19 @@ const Login = () => {
     };
 
     const handlePw = (e) => {
-        setPw(e.target.value);
+        setPassword(e.target.value);
     };
-
-    // axios.get('https://api.mooseong.net/health-check').then((res) => {
-    //     console.log(res);
-    // });
-
-    // useEffect 사용법
-    // useEffect(() => {
-    //     const apiRequest = async () => {
-    //         const data = await axios.get(
-    //             'https://api.mooseong.net/health-check'
-    //         );
-    //         setRes(data);
-    //     };
-    //     apiRequest();
-    // }, []);
-    // console.log(res);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (email === '') {
             alert('email을 입력해주세요');
         }
-        if (email !== '' && pw === '') {
+        if (email !== '' && password === '') {
             alert('pw을 입력해주세요');
         }
         setEmail('');
-        setPw('');
+        setPassword('');
 
         loginAPI();
     };
@@ -64,9 +50,10 @@ const Login = () => {
     const loginAPI = async () => {
         const payload = {
             email: email,
-            password: pw,
+            password: password,
         };
         const login = await axios.post(url, payload);
+        console.log(5);
         Router.push('/');
         setRes(login);
     };
@@ -74,8 +61,14 @@ const Login = () => {
 
     return (
         <>
-            <Form onSubmit={handleSubmit}>
-                <h3>로그인 페이지</h3>
+            <Form method='post' action='/' onSubmit={handleSubmit}>
+                <img
+                    src='/create.PNG'
+                    width='200'
+                    height='200'
+                    alt='My Image'
+                    className='title'
+                ></img>
                 <input
                     type='text'
                     placeholder='email'
@@ -86,10 +79,9 @@ const Login = () => {
                 <input
                     type='password'
                     placeholder='pw'
-                    value={pw}
+                    value={password}
                     onChange={handlePw}
                 />
-                <button>로그인</button>
                 <ul className='fucntion'>
                     <li>
                         <Link href='/signup'>
@@ -101,12 +93,8 @@ const Login = () => {
                             <a>비밀번호 초기화</a>
                         </Link>
                     </li>
-                    <li>
-                        <Link href='/withdrawal'>
-                            <a>회원 탈퇴</a>
-                        </Link>
-                    </li>
                 </ul>
+                <button>로그인</button>
             </Form>
         </>
     );
