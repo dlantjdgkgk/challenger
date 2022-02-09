@@ -5,8 +5,7 @@ import axios from 'axios';
 
 const Signup = () => {
     const [email, setEmail] = useState('');
-    const [number, setNumber] = useState('');
-    const [name, setName] = useState('');
+    const [nickname, setNickname] = useState('');
     const [password, setpassword] = useState('');
     const [repeatPw, setRepeatPw] = useState('');
     const [validEmail, setValidEmail] = useState('');
@@ -23,12 +22,10 @@ const Signup = () => {
         }
     };
 
-    const handleNumber = (e) => {
-        setNumber(e.target.value);
+    const handleNickname = (e) => {
+        setNickname(e.target.value);
     };
-    const handleName = (e) => {
-        setName(e.target.value);
-    };
+
     const handlePw = (e) => {
         setpassword(e.target.value);
         if (!isValidPassword(e.target.value)) {
@@ -37,6 +34,7 @@ const Signup = () => {
             setValidPassword('');
         }
     };
+
     const handleRepeatPw = (e) => {
         setRepeatPw(e.target.value);
         if (password !== e.target.value) {
@@ -52,8 +50,8 @@ const Signup = () => {
             alert('email을 입력해주세요');
             return;
         }
-        if (name === '') {
-            alert('이름을 입력해주세요');
+        if (nickname === '') {
+            alert('닉네임을 입력해주세요');
             return;
         }
         if (password === '') {
@@ -65,8 +63,7 @@ const Signup = () => {
             return;
         }
         setEmail('');
-        setNumber('');
-        setName('');
+        setNickname('');
         setpassword('');
         setRepeatPw('');
         signupAPI();
@@ -75,12 +72,11 @@ const Signup = () => {
     const signupAPI = async () => {
         const payload = {
             email: email,
-            name: name,
+            nickname: nickname,
             password: password,
-            // repeatPassword: repeatPw,
         };
         const signup = await axios.post(
-            'http://3.35.70.93:8080/users',
+            'https://api.digital-hamster.net/users',
             payload
         );
         Router.push('/login');
@@ -122,8 +118,8 @@ const Signup = () => {
                 <input
                     type='text'
                     placeholder='닉네임 입력'
-                    value={name}
-                    onChange={handleName}
+                    value={nickname}
+                    onChange={handleNickname}
                 />
                 <br />
                 <br />

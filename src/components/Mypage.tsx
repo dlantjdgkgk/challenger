@@ -9,6 +9,11 @@ import { useCookies } from 'react-cookie';
 
 const Mypage = () => {
     const [cookies, setCookie, removeCookie] = useCookies([]);
+    const [url, setUrl] = useState('');
+
+    useEffect(() => {
+        setUrl('https://api.digital-hamster.net/users');
+    }, []);
 
     const Logout = async () => {
         await removeCookie('token');
@@ -29,6 +34,11 @@ const Mypage = () => {
                         <li>
                             <Link href='/'>
                                 <button onClick={Logout}>로그아웃</button>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href='/deleteUser'>
+                                <button>회원탈퇴</button>
                             </Link>
                         </li>
                     </ul>

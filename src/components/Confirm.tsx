@@ -4,7 +4,7 @@ import Router from 'next/router';
 
 const Confirm = () => {
     const a = 5;
-    const b = 7;
+
     return (
         <>
             <img src='/2.png' width='1000' height='500'></img>

@@ -12,17 +12,20 @@ const Login = () => {
     const [res, setRes] = useState(null);
     const [url, setUrl] = useState('');
     const [cookies, setCookie] = useCookies([]);
+    // const [cookies_userid, setCookie_userid] = useCookies([]);
 
     useEffect(() => {
-        if (res?.data?.result) {
-            setCookie('token', `Bearer ${res?.data?.result}`);
-            console.log(res?.data?.result);
+        if (res?.data?.email) {
+            setCookie('token', `Bearer ${res?.data?.email}`);
+            // setCookie_userid('userId', `Bearer ${res?.data?.userId}`);
+            console.log(res?.data?.email);
+            console.log(res?.data?.userId);
             console.log(jwt.decode(res?.data?.result));
         }
     }, [res?.data?.result]);
 
     useEffect(() => {
-        setUrl('http://3.35.70.93:8080/login');
+        setUrl('https://api.digital-hamster.net/login');
     }, []);
 
     const handleEmail = (e) => {
@@ -43,7 +46,6 @@ const Login = () => {
         }
         setEmail('');
         setPassword('');
-
         loginAPI();
     };
 
@@ -53,7 +55,6 @@ const Login = () => {
             password: password,
         };
         const login = await axios.post(url, payload);
-        console.log(5);
         Router.push('/');
         setRes(login);
     };
@@ -91,6 +92,11 @@ const Login = () => {
                     <li>
                         <Link href='/resetPassword'>
                             <a>비밀번호 초기화</a>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href='/updatePassword'>
+                            <a>비밀번호 변경</a>
                         </Link>
                     </li>
                 </ul>

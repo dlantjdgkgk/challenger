@@ -2,32 +2,34 @@ import { useState, useEffect } from 'react';
 import { Form } from './style';
 import axios from 'axios';
 import Router from 'next/router';
+import { useCookies } from 'react-cookie';
+import jwt from 'jsonwebtoken';
 
-const ResetPassword = () => {
-    const [email, setEmail] = useState('');
+// 링크 만들 때 토큰 인증 부분이 이상해질수도..
+const DeleteUser = () => {
     const [url, setUrl] = useState('');
+    const [password, Setpassword] = useState('');
+    // const [cookies_userid, setCookie_userid] = useCookies([]);
 
     useEffect(() => {
-        setUrl('https://api.digital-hamster.net/reset/password');
+        setUrl('https://api.digital-hamster.net/users/:cookies_userid');
     }, []);
 
-    const handleEmail = (e) => {
-        setEmail(e.target.value);
+    const handlePassword = (e) => {
+        Setpassword(e.target.value);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setEmail('');
-        ResetPasswordAPI();
+        withdrawalAPI();
     };
 
-    const ResetPasswordAPI = async () => {
+    const withdrawalAPI = async () => {
         const payload = {
-            email: email,
+            password: password,
         };
-        const resetPassword = await axios.post(url, payload);
+        const withdrawal = await axios.delete(url, { data: payload });
         Router.push('/');
-        console.log(resetPassword);
     };
 
     return (
@@ -40,12 +42,12 @@ const ResetPassword = () => {
                     alt='My Image'
                     className='title'
                 ></img>
-                <h3>비밀번호 찾기</h3>
+                <h3>회원 탈퇴</h3>
                 <input
                     type='text'
-                    placeholder='email'
-                    value={email}
-                    onChange={handleEmail}
+                    placeholder='password'
+                    value={password}
+                    onChange={handlePassword}
                 />
                 <br></br>
                 <img
@@ -55,10 +57,10 @@ const ResetPassword = () => {
                     alt='My Image'
                     className='title'
                 ></img>
-                <button>비밀번호 초기화</button>
+                <button>회원 탈퇴</button>
             </Form>
         </>
     );
 };
 
-export default ResetPassword;
+export default DeleteUser;

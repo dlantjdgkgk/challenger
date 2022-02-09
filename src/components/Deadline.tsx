@@ -16,7 +16,6 @@ const Deadline = () => {
         }),
         shallowEqual // 객체 반환할 때 필요
     );
-
     return (
         <>
             <div>

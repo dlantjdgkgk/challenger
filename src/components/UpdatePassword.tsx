@@ -3,31 +3,31 @@ import { Form } from './style';
 import axios from 'axios';
 import Router from 'next/router';
 
-const ResetPassword = () => {
-    const [email, setEmail] = useState('');
+const UpdatePassword = () => {
+    const [password, setPassword] = useState('');
+    const [change_password, Setchange_password] = useState('');
     const [url, setUrl] = useState('');
 
     useEffect(() => {
-        setUrl('https://api.digital-hamster.net/reset/password');
+        setUrl('https://api.digital-hamster.net/users');
     }, []);
 
-    const handleEmail = (e) => {
-        setEmail(e.target.value);
+    const handlePassword = (e) => {
+        setPassword(e.target.value);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setEmail('');
-        ResetPasswordAPI();
+        setPassword('');
+        UpdatePasswordAPI();
     };
 
-    const ResetPasswordAPI = async () => {
+    const UpdatePasswordAPI = async () => {
         const payload = {
-            email: email,
+            password: password,
         };
-        const resetPassword = await axios.post(url, payload);
+        const updatePassword = await axios.put(url, payload);
         Router.push('/');
-        console.log(resetPassword);
     };
 
     return (
@@ -43,9 +43,16 @@ const ResetPassword = () => {
                 <h3>비밀번호 찾기</h3>
                 <input
                     type='text'
-                    placeholder='email'
-                    value={email}
-                    onChange={handleEmail}
+                    placeholder='password'
+                    value={password}
+                    onChange={handlePassword}
+                />
+                <br></br>
+                <input
+                    type='text'
+                    placeholder='change Password'
+                    value={change_password}
+                    onChange={handlePassword}
                 />
                 <br></br>
                 <img
@@ -55,10 +62,10 @@ const ResetPassword = () => {
                     alt='My Image'
                     className='title'
                 ></img>
-                <button>비밀번호 초기화</button>
+                <button>비밀번호 변경</button>
             </Form>
         </>
     );
 };
 
-export default ResetPassword;
+export default UpdatePassword;

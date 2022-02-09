@@ -8,18 +8,19 @@ import Select from 'react-select';
 import Deadline from './Deadline';
 import { useSelector } from '../redux/hooks';
 import { shallowEqual } from 'react-redux';
+import CreatableSelect from 'react-select/creatable';
 
 const Write = () => {
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
     const [participant, setParticipant] = useState('');
     const [cost, setCost] = useState('');
-    const [url, setUrl] = useState('');
     const [result, setResult] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [category_data, setcategory_data] = useState(null);
-    const [participant_data, setparticipant_data] = useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
+
+    const category_URL = 'https://api.digital-hamster.net/categories';
 
     const { startdate, selectdate } = useSelector(
         (state) => ({
@@ -29,18 +30,31 @@ const Write = () => {
         shallowEqual // 객체 반환할 때 필요
     );
 
-    const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' },
+    // 다른 방법 : 다른 곳에서도 쓰고 싶을 경우 컴포넌트 밖에서 선언하고 import 등등 해서 불러올수 있다.
+    useEffect(() => {
+        const appendAPI = async () => {
+            setcategory_data(await axios.get(category_URL));
+        };
+        appendAPI();
+    }, []);
+
+    const participant_Options = [
+        { value: '2명', label: '2명' },
+        { value: '3명', label: '3명' },
+        { value: '4명', label: '4명' },
+        { value: '5명', label: '5명' },
+        { value: '6명', label: '6명' },
     ];
 
-    console.log(startdate);
-    console.log(selectdate);
-
-    useEffect(() => {
-        setUrl('http://localhost:3000/write');
-    }, []);
+    const categories_result = category_data?.data?.result;
+    const category_Options = [
+        { value: 'Health', label: `${categories_result?.[0].value}` },
+        { value: 'Movie', label: `${categories_result?.[1].value}` },
+        { value: 'Drama', label: `${categories_result?.[2].value}` },
+        { value: 'Routine', label: `${categories_result?.[3].value}` },
+        { value: 'Music', label: `${categories_result?.[4].value}` },
+        { value: 'Food', label: `${categories_result?.[5].value}` },
+    ];
 
     const handleTitle = (e) => {
         setTitle(e.target.value);
@@ -82,7 +96,7 @@ const Write = () => {
         formData.append('title', title);
         formData.append('cost', cost);
         formData.append('category', category);
-        formData.append('participant', participant);
+        // formData.append('participant', participant);
         formData.append('startdate', startdate);
         formData.append('selectdate', selectdate);
         formData.append('file', selectedFile);
@@ -94,21 +108,17 @@ const Write = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             };
-            const write = await axios.post(url, payload);
+            const write = await axios.post(
+                'https://api.digital-hamster.net/documents',
+                payload
+            );
             setResult(write);
         };
         setTitle('');
         setCategory('');
         setParticipant('');
         setCost('');
-        appendAPI();
         writeAPI();
-    };
-    console.log(result);
-
-    const appendAPI = async () => {
-        setcategory_data(await axios.get(url));
-        setparticipant_data(await axios.get(url));
     };
 
     return (
@@ -134,23 +144,21 @@ const Write = () => {
                     </div>
                     <div>
                         <span>항목</span>
-                        {!category_data ? (
+                        {category_data ? (
                             <Select
                                 defaultValue={selectedOption}
                                 onChange={setSelectedOption}
-                                options={options}
+                                options={category_Options}
                             />
                         ) : null}
                     </div>
                     <div>
                         <span>인원</span>
-                        {participant_data ? (
-                            <Select
-                                defaultValue={selectedOption}
-                                onChange={setSelectedOption}
-                                options={options}
-                            />
-                        ) : null}
+                        <Select
+                            defaultValue={selectedOption}
+                            onChange={setSelectedOption}
+                            options={participant_Options}
+                        />
                     </div>
                     <div>
                         <span>비용</span>
