@@ -6,14 +6,10 @@ import { useCookies } from 'react-cookie';
 import jwt from 'jsonwebtoken';
 
 // 링크 만들 때 토큰 인증 부분이 이상해질수도..
+// useEffect : 게시글 fetch 계속 렌더링 할 필요가 없을 때
 const DeleteUser = () => {
-    const [url, setUrl] = useState('');
     const [password, Setpassword] = useState('');
-    // const [cookies_userid, setCookie_userid] = useCookies([]);
-
-    useEffect(() => {
-        setUrl('https://api.digital-hamster.net/users/:cookies_userid');
-    }, []);
+    const [cookies, setCookie] = useCookies([]);
 
     const handlePassword = (e) => {
         Setpassword(e.target.value);
@@ -28,7 +24,14 @@ const DeleteUser = () => {
         const payload = {
             password: password,
         };
-        const withdrawal = await axios.delete(url, { data: payload });
+        const token = cookies.token.split(' ')[1];
+        const id = jwt.decode(token);
+        const userid = id.id; // 77
+
+        const withdrawal = await axios.delete(
+            'https://api.digital-hamster.net/users/' + userid,
+            { data: payload }
+        );
         Router.push('/');
     };
 
@@ -44,7 +47,7 @@ const DeleteUser = () => {
                 ></img>
                 <h3>회원 탈퇴</h3>
                 <input
-                    type='text'
+                    type='password'
                     placeholder='password'
                     value={password}
                     onChange={handlePassword}

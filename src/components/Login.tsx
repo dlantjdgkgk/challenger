@@ -12,17 +12,15 @@ const Login = () => {
     const [res, setRes] = useState(null);
     const [url, setUrl] = useState('');
     const [cookies, setCookie] = useCookies([]);
-    // const [cookies_userid, setCookie_userid] = useCookies([]);
 
     useEffect(() => {
-        if (res?.data?.email) {
-            setCookie('token', `Bearer ${res?.data?.email}`);
-            // setCookie_userid('userId', `Bearer ${res?.data?.userId}`);
-            console.log(res?.data?.email);
-            console.log(res?.data?.userId);
-            console.log(jwt.decode(res?.data?.result));
+        if (res?.data?.Token) {
+            setCookie('token', `Bearer ${res?.data?.Token}`);
+            console.log(res?.data?.Token);
+            const a = jwt.decode(res?.data?.Token);
+            console.log(a.id);
         }
-    }, [res?.data?.result]);
+    }, [res?.data?.Token]);
 
     useEffect(() => {
         setUrl('https://api.digital-hamster.net/login');

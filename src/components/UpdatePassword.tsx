@@ -2,18 +2,20 @@ import { useState, useEffect } from 'react';
 import { Form } from './style';
 import axios from 'axios';
 import Router from 'next/router';
+import { useCookies } from 'react-cookie';
+import jwt from 'jsonwebtoken';
 
 const UpdatePassword = () => {
     const [password, setPassword] = useState('');
-    const [change_password, Setchange_password] = useState('');
-    const [url, setUrl] = useState('');
-
-    useEffect(() => {
-        setUrl('https://api.digital-hamster.net/users');
-    }, []);
+    const [changePw, setchangePw] = useState('');
+    const [cookies, setCookie] = useCookies([]);
 
     const handlePassword = (e) => {
         setPassword(e.target.value);
+    };
+
+    const handleChangePw = (e) => {
+        setchangePw(e.target.value);
     };
 
     const handleSubmit = (e) => {
@@ -25,8 +27,16 @@ const UpdatePassword = () => {
     const UpdatePasswordAPI = async () => {
         const payload = {
             password: password,
+            changePw: changePw,
         };
-        const updatePassword = await axios.put(url, payload);
+        const token = cookies.token.split(' ')[1];
+        const id = jwt.decode(token);
+        const userid = id.id; // 77
+
+        const updatePassword = await axios.put(
+            'https://api.digital-hamster.net/users/' + userid,
+            payload
+        );
         Router.push('/');
     };
 
@@ -42,17 +52,17 @@ const UpdatePassword = () => {
                 ></img>
                 <h3>비밀번호 찾기</h3>
                 <input
-                    type='text'
+                    type='password'
                     placeholder='password'
                     value={password}
                     onChange={handlePassword}
                 />
                 <br></br>
                 <input
-                    type='text'
+                    type='password'
                     placeholder='change Password'
-                    value={change_password}
-                    onChange={handlePassword}
+                    value={changePw}
+                    onChange={handleChangePw}
                 />
                 <br></br>
                 <img

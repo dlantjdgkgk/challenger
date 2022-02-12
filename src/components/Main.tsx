@@ -15,25 +15,26 @@ import {
     Popular,
     Start,
     Category,
-} from '../style';
+} from './style';
 import Link from 'next/link';
 import { faEdit, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCookies } from 'react-cookie';
+import { useSelector } from '../redux/hooks';
+import { shallowEqual } from 'react-redux';
 
 const Main = () => {
+    const { categories_result } = useSelector(
+        (state) => ({
+            categories_result: state.categories_result,
+        }),
+        shallowEqual // 객체 반환할 때 필요
+    );
     const TOTAL_SLIDES = 2;
     const [currentSlide, setCurrentSlide] = useState(0);
     const slideRef = useRef(null);
-    const [category, Setcategory] = useState([
-        'health',
-        'movie',
-        'drama',
-        'routine',
-        'food',
-        'music',
-    ]);
     const [cookies, setCookie] = useCookies([]);
+    // const images = ['DRAMA', 'MOVIE', 'FOOD', 'ROUTINE', 'FOOD', 'MUSIC'];
 
     const NextSlide = () => {
         if (currentSlide >= TOTAL_SLIDES) {
@@ -176,21 +177,20 @@ const Main = () => {
                 <h3>카테고리</h3>
                 <hr style={{ width: '1200px', border: '3px solid gray' }} />
                 <Category>
-                    {category.map(function (category) {
+                    {categories_result.map((categories) => {
                         return (
                             <div className='image'>
                                 <Link href='/category'>
                                     <img
-                                        src='/health.jpg'
+                                        src='/HEALTH.jpg'
                                         width='190px'
                                         height='150px'
                                         className='category'
                                     ></img>
                                 </Link>
-
                                 <div>
                                     <span>
-                                        <b>{category}</b>
+                                        <b>{categories.value}</b>
                                     </span>
                                 </div>
                             </div>
@@ -203,3 +203,6 @@ const Main = () => {
 };
 
 export default Main;
+function dispatch() {
+    throw new Error('Function not implemented.');
+}

@@ -2,35 +2,43 @@ import { useState, useEffect } from 'react';
 import { Submit } from './style';
 import axios from 'axios';
 import Router from 'next/router';
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Select from 'react-select';
 import Deadline from './Deadline';
-import { useSelector } from '../redux/hooks';
+import { useSelector, useDispatch } from '../redux/hooks';
 import { shallowEqual } from 'react-redux';
-import CreatableSelect from 'react-select/creatable';
+import { updateCategories_result } from '../redux/rootReducer';
+import Link from 'next/link';
+import { useCookies } from 'react-cookie';
+import jwt from 'jsonwebtoken';
 
 const Write = () => {
     const [title, setTitle] = useState('');
-    const [category, setCategory] = useState('');
-    const [participant, setParticipant] = useState('');
     const [cost, setCost] = useState('');
     const [result, setResult] = useState(null);
-    const [selectedFile, setSelectedFile] = useState(null);
     const [category_data, setcategory_data] = useState(null);
-    const [selectedOption, setSelectedOption] = useState(null);
-
+    const [category, setCategory] = useState(null);
+    const [participant, setParticipant] = useState(null);
+    const [cookies, setCookie] = useCookies([]);
     const category_URL = 'https://api.digital-hamster.net/categories';
+    const dispatch = useDispatch();
+    const moment = require('moment');
 
-    const { startdate, selectdate } = useSelector(
+    const { start_time, term } = useSelector(
         (state) => ({
-            startdate: state.startdate,
-            selectdate: state.selectdate,
+            start_time: state.start_time,
+            term: state.term,
         }),
         shallowEqual // 객체 반환할 때 필요
     );
+    const token = cookies.token.split(' ')[1];
+    const id = jwt.decode(token);
+    const userId = id.id;
 
-    // 다른 방법 : 다른 곳에서도 쓰고 싶을 경우 컴포넌트 밖에서 선언하고 import 등등 해서 불러올수 있다.
+    const result1 = new Date(start_time);
+    const res = result1.setDate(result1.getDate() + Number(term));
+    const date = moment(new Date(res));
+    const end_time = date.format('YYYY-MM-DD');
+
     useEffect(() => {
         const appendAPI = async () => {
             setcategory_data(await axios.get(category_URL));
@@ -38,85 +46,82 @@ const Write = () => {
         appendAPI();
     }, []);
 
-    const participant_Options = [
-        { value: '2명', label: '2명' },
-        { value: '3명', label: '3명' },
-        { value: '4명', label: '4명' },
-        { value: '5명', label: '5명' },
-        { value: '6명', label: '6명' },
+    const participant_option = [
+        { value: 2, label: '2명' },
+        { value: 3, label: '3명' },
+        { value: 4, label: '4명' },
+        { value: 5, label: '5명' },
+        { value: 6, label: '6명' },
     ];
-
     const categories_result = category_data?.data?.result;
+    // console.log(categories_result);
+
+    dispatch(updateCategories_result(categories_result));
+
     const category_Options = [
-        { value: 'Health', label: `${categories_result?.[0].value}` },
-        { value: 'Movie', label: `${categories_result?.[1].value}` },
-        { value: 'Drama', label: `${categories_result?.[2].value}` },
-        { value: 'Routine', label: `${categories_result?.[3].value}` },
-        { value: 'Music', label: `${categories_result?.[4].value}` },
-        { value: 'Food', label: `${categories_result?.[5].value}` },
+        { label: 'Health', value: `${categories_result?.[0].value}` },
+        { label: 'Movie', value: `${categories_result?.[1].value}` },
+        { label: 'Drama', value: `${categories_result?.[2].value}` },
+        { label: 'Routine', value: `${categories_result?.[3].value}` },
+        { label: 'Music', value: `${categories_result?.[4].value}` },
+        { label: 'Food', value: `${categories_result?.[5].value}` },
     ];
 
     const handleTitle = (e) => {
         setTitle(e.target.value);
     };
-
+    // "Cannot destructure property 'buffer' of 'req.file' as it is undefined."
     const handleCost = (e) => {
         setCost(e.target.value);
     };
+    const handleCategory = (category) => {
+        setCategory(category);
+    };
 
-    const onChange = (e) => {
-        setSelectedFile(e.target.files[0]);
+    const handleParticipant = (participant) => {
+        setParticipant(participant);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         if (title === '') {
             alert('제목을 입력해주세요');
             return;
         }
-        // if (category === '') {
-        //     alert('항목을 선택해주세요');
-        //     return;
-        // }
-        // if (participant === '') {
-        //     alert('참가 인원을 선택해주세요');
-        //     return;
-        // }
         if (cost === '') {
             alert('비용을 입력해주세요');
             return;
         }
-        if (startdate === '') {
+        if (start_time === '') {
             alert('기한을 선택해주세요');
             return;
         }
 
-        const formData = new FormData();
+        const formData: Record<any, any> = new FormData();
         formData.append('title', title);
         formData.append('cost', cost);
-        formData.append('category', category);
-        // formData.append('participant', participant);
-        formData.append('startdate', startdate);
-        formData.append('selectdate', selectdate);
-        formData.append('file', selectedFile);
-
+        formData.append('category', category.value);
+        formData.append('participant', participant.value);
+        formData.append('start_time', start_time);
+        formData.append('term', term);
+        formData.append('end_time', end_time);
+        formData.append('userId', userId);
+        formData.append('img', e.target.img.files[0]);
+        // for (let key of formData.keys()) {
+        //     console.log(key);
+        // }
+        // for (let value of formData.values()) {
+        //     console.log(value);
+        // }
         const writeAPI = async () => {
-            const payload = {
-                data: formData,
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            };
             const write = await axios.post(
                 'https://api.digital-hamster.net/documents',
-                payload
+                formData
             );
-            setResult(write);
+            console.log(write);
         };
         setTitle('');
         setCategory('');
-        setParticipant('');
         setCost('');
         writeAPI();
     };
@@ -124,13 +129,16 @@ const Write = () => {
     return (
         <>
             <Submit method='post' action='/' onSubmit={handleSubmit}>
-                <img
-                    src='/create.PNG'
-                    width='200'
-                    height='200'
-                    alt='My Image'
-                    className='title'
-                ></img>
+                <Link href='/'>
+                    <img
+                        src='/create.PNG'
+                        width='200'
+                        height='200'
+                        alt='My Image'
+                        className='title'
+                    ></img>
+                </Link>
+
                 <h1>챌린지 글 작성하기</h1>
                 <div>
                     <div>
@@ -146,8 +154,8 @@ const Write = () => {
                         <span>항목</span>
                         {category_data ? (
                             <Select
-                                defaultValue={selectedOption}
-                                onChange={setSelectedOption}
+                                value={category}
+                                onChange={handleCategory}
                                 options={category_Options}
                             />
                         ) : null}
@@ -155,9 +163,9 @@ const Write = () => {
                     <div>
                         <span>인원</span>
                         <Select
-                            defaultValue={selectedOption}
-                            onChange={setSelectedOption}
-                            options={participant_Options}
+                            value={participant}
+                            onChange={handleParticipant}
+                            options={participant_option}
                         />
                     </div>
                     <div>
@@ -177,8 +185,7 @@ const Write = () => {
                             type='file'
                             className='imgInput'
                             accept='image/*'
-                            name='file'
-                            onChange={onChange}
+                            name='img'
                         />
                     </div>
                 </div>

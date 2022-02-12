@@ -4,15 +4,15 @@ import { useState, useEffect } from 'react';
 import { Form } from './style';
 import { useSelector, useDispatch } from '../redux/hooks';
 import { shallowEqual } from 'react-redux';
-import { updateSelectdate, updateStartdate } from '../redux/rootReducer';
+import { updateStart_time, updateTerm } from '../redux/rootReducer';
 
 const Deadline = () => {
     const dispatch = useDispatch(); // 수정
 
-    const { startdate, selectdate } = useSelector(
+    const { start_time, term } = useSelector(
         (state) => ({
-            startdate: state.startdate,
-            selectdate: state.selectdate,
+            start_time: state.start_time,
+            term: state.term,
         }),
         shallowEqual // 객체 반환할 때 필요
     );
@@ -26,15 +26,15 @@ const Deadline = () => {
                     id='start'
                     min='2022-01-01'
                     max='2022-02-28'
-                    value={startdate}
-                    onChange={(e) => dispatch(updateStartdate(e.target.value))}
+                    value={start_time}
+                    onChange={(e) => dispatch(updateStart_time(e.target.value))}
                 />
                 <label>
                     Pick your deadline for the challenge:
                     <select
-                        value={selectdate}
+                        value={term}
                         onChange={(e) => {
-                            dispatch(updateSelectdate(e.target.value));
+                            dispatch(updateTerm(e.target.value));
                         }}
                     >
                         <option value={7}>1주</option>
