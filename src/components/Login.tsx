@@ -10,7 +10,6 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [res, setRes] = useState(null);
-    const [url, setUrl] = useState('');
     const [cookies, setCookie] = useCookies([]);
 
     useEffect(() => {
@@ -21,10 +20,6 @@ const Login = () => {
             console.log(a.id);
         }
     }, [res?.data?.Token]);
-
-    useEffect(() => {
-        setUrl('https://api.digital-hamster.net/login');
-    }, []);
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -52,7 +47,10 @@ const Login = () => {
             email: email,
             password: password,
         };
-        const login = await axios.post(url, payload);
+        const login = await axios.post(
+            'https://api.digital-hamster.net/login',
+            payload
+        );
         Router.push('/');
         setRes(login);
     };

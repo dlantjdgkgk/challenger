@@ -6,9 +6,11 @@ export const getToken = () => {
 };
 
 export const getUserIdByToken = () => {
-    const cookies = parseCookie(document.cookie);
-    const token = cookies.token.replace('Bearer ', '');
-    return jwt.decode(token).id;
+    if (document.cookie !== '') {
+        const cookies = parseCookie(document.cookie);
+        const token = cookies.token.replace('Bearer ', '');
+        return jwt.decode(token).id;
+    }
 };
 
 function parseCookie(str) {

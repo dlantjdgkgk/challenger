@@ -20,10 +20,10 @@ const Write = () => {
     const [category, setCategory] = useState(null);
     const [participant, setParticipant] = useState(null);
     const [cookies, setCookie] = useCookies([]);
-    const category_URL = 'https://api.digital-hamster.net/categories';
     const dispatch = useDispatch();
     const moment = require('moment');
     const router = useRouter();
+
     const { start_time, term } = useSelector(
         (state) => ({
             start_time: state.start_time,
@@ -44,7 +44,9 @@ const Write = () => {
 
     useEffect(() => {
         const appendAPI = async () => {
-            setcategory_data(await axios.get(category_URL));
+            setcategory_data(
+                await axios.get('https://api.digital-hamster.net/categories')
+            );
         };
         appendAPI();
     }, []);

@@ -24,6 +24,8 @@ import { useCookies } from 'react-cookie';
 import { useSelector } from '../redux/hooks';
 import { shallowEqual } from 'react-redux';
 
+// 모든 페이지 모듈화 하기 index.tsx / style.tsx / useHook.tsx
+
 const Main = () => {
     const { categories_result } = useSelector(
         (state) => ({
@@ -31,7 +33,6 @@ const Main = () => {
         }),
         shallowEqual // 객체 반환할 때 필요
     );
-    const category_URL = 'https://api.digital-hamster.net/categories';
     const TOTAL_SLIDES = 2;
     const [currentSlide, setCurrentSlide] = useState(0);
     const slideRef = useRef(null);
@@ -61,7 +62,9 @@ const Main = () => {
 
     useEffect(() => {
         const appendAPI = async () => {
-            setcategory_data(await axios.get(category_URL));
+            setcategory_data(
+                await axios.get('https://api.digital-hamster.net/categories')
+            );
         };
         appendAPI();
     }, []);
@@ -101,7 +104,7 @@ const Main = () => {
                             <div>
                                 <a href='/confirm'>
                                     <img
-                                        src='/캡처.png'
+                                        src='/capture.png'
                                         width='1000'
                                         height='500'
                                         className='capture'
@@ -193,7 +196,7 @@ const Main = () => {
                                     href={`/category?value=${categories.value}`}
                                 >
                                     <img
-                                        src='/HEALTH.jpg'
+                                        src='/health.jpg'
                                         width='190px'
                                         height='150px'
                                         className='category'

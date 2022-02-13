@@ -5,29 +5,27 @@ import Router from 'next/router';
 
 const ResetPassword = () => {
     const [email, setEmail] = useState('');
-    const [url, setUrl] = useState('');
-
-    useEffect(() => {
-        setUrl('https://api.digital-hamster.net/reset/password');
-    }, []);
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setEmail('');
-        ResetPasswordAPI();
     };
 
     const ResetPasswordAPI = async () => {
         const payload = {
             email: email,
         };
-        const resetPassword = await axios.post(url, payload);
+        const resetPassword = await axios.post(
+            'https://api.digital-hamster.net/reset/password',
+            payload
+        );
         Router.push('/');
         console.log(resetPassword);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setEmail('');
+        ResetPasswordAPI();
     };
 
     return (

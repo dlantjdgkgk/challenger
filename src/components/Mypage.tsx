@@ -9,11 +9,6 @@ import { useCookies } from 'react-cookie';
 
 const Mypage = () => {
     const [cookies, setCookie, removeCookie] = useCookies([]);
-    const [url, setUrl] = useState('');
-
-    useEffect(() => {
-        setUrl('https://api.digital-hamster.net/users');
-    }, []);
 
     const Logout = async () => {
         await removeCookie('token');

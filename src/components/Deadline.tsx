@@ -24,8 +24,8 @@ const Deadline = () => {
                 <input
                     type='date'
                     id='start'
-                    min='2022-01-01'
-                    max='2022-02-28'
+                    min='2022-02-14'
+                    max=''
                     value={start_time}
                     onChange={(e) => dispatch(updateStart_time(e.target.value))}
                 />

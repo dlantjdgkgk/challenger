@@ -34,7 +34,7 @@ const UpdatePassword = () => {
         const userid = id.id; // 77
 
         const updatePassword = await axios.put(
-            'https://api.digital-hamster.net/users/' + userid,
+            `https://api.digital-hamster.net/users/${userid}`,
             payload
         );
         Router.push('/');

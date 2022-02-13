@@ -1,10 +1,10 @@
 import Categories from '../components/Categories';
 import Head from 'next/head';
 
-const categories = () => (
+const category = () => (
     <>
         <Categories />
     </>
 );
 
-export default categories;
+export default category;
