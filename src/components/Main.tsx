@@ -16,6 +16,7 @@ import {
     Start,
     Category,
 } from './style';
+import axios from 'axios';
 import Link from 'next/link';
 import { faEdit, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -30,11 +31,12 @@ const Main = () => {
         }),
         shallowEqual // 객체 반환할 때 필요
     );
+    const category_URL = 'https://api.digital-hamster.net/categories';
     const TOTAL_SLIDES = 2;
     const [currentSlide, setCurrentSlide] = useState(0);
     const slideRef = useRef(null);
     const [cookies, setCookie] = useCookies([]);
-    // const images = ['DRAMA', 'MOVIE', 'FOOD', 'ROUTINE', 'FOOD', 'MUSIC'];
+    const [category_data, setcategory_data] = useState(null);
 
     const NextSlide = () => {
         if (currentSlide >= TOTAL_SLIDES) {
@@ -56,6 +58,13 @@ const Main = () => {
         slideRef.current.style.transition = 'all 0.5s ease-in-out';
         slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
     }, [currentSlide]);
+
+    useEffect(() => {
+        const appendAPI = async () => {
+            setcategory_data(await axios.get(category_URL));
+        };
+        appendAPI();
+    }, []);
 
     return (
         <>
@@ -177,10 +186,12 @@ const Main = () => {
                 <h3>카테고리</h3>
                 <hr style={{ width: '1200px', border: '3px solid gray' }} />
                 <Category>
-                    {categories_result.map((categories) => {
+                    {category_data?.data?.result.map((categories) => {
                         return (
                             <div className='image'>
-                                <Link href='/category'>
+                                <Link
+                                    href={`/category?value=${categories.value}`}
+                                >
                                     <img
                                         src='/HEALTH.jpg'
                                         width='190px'

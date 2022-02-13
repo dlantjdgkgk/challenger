@@ -10,6 +10,7 @@ import { updateCategories_result } from '../redux/rootReducer';
 import Link from 'next/link';
 import { useCookies } from 'react-cookie';
 import jwt from 'jsonwebtoken';
+import { useRouter } from 'next/router';
 
 const Write = () => {
     const [title, setTitle] = useState('');
@@ -22,7 +23,7 @@ const Write = () => {
     const category_URL = 'https://api.digital-hamster.net/categories';
     const dispatch = useDispatch();
     const moment = require('moment');
-
+    const router = useRouter();
     const { start_time, term } = useSelector(
         (state) => ({
             start_time: state.start_time,
@@ -38,6 +39,8 @@ const Write = () => {
     const res = result1.setDate(result1.getDate() + Number(term));
     const date = moment(new Date(res));
     const end_time = date.format('YYYY-MM-DD');
+    const days = moment(start_time, 'YYYYMMDD').fromNow();
+    const remaining_days = days.split(' ')[1];
 
     useEffect(() => {
         const appendAPI = async () => {
@@ -107,18 +110,19 @@ const Write = () => {
         formData.append('end_time', end_time);
         formData.append('userId', userId);
         formData.append('img', e.target.img.files[0]);
-        // for (let key of formData.keys()) {
-        //     console.log(key);
-        // }
-        // for (let value of formData.values()) {
-        //     console.log(value);
-        // }
+        for (let key of formData.keys()) {
+            console.log(key);
+        }
+        for (let value of formData.values()) {
+            console.log(value);
+        }
         const writeAPI = async () => {
             const write = await axios.post(
                 'https://api.digital-hamster.net/documents',
                 formData
             );
             console.log(write);
+            router.push('/');
         };
         setTitle('');
         setCategory('');
