@@ -31,7 +31,7 @@ const useDeleteUser = () => {
         );
         Router.push('/');
     };
-    return data;
+    return { password, handleSubmit, handlePassword };
 };
 
 export default useDeleteUser;

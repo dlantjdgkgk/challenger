@@ -1,11 +1,4 @@
 import {
-    useState,
-    useEffect,
-    useRef,
-    // useUserState,
-    // useUserDispatch,
-} from 'react';
-import {
     DIV,
     Container,
     SliderContainer,
@@ -16,60 +9,23 @@ import {
     Start,
     Category,
 } from '../style';
-import axios from 'axios';
 import Link from 'next/link';
 import { faEdit, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useCookies } from 'react-cookie';
-import { useSelector } from '../../redux/hooks';
-import { shallowEqual } from 'react-redux';
+import useMain from './useHook';
 
 // 모든 페이지 모듈화 하기 index.tsx / style.tsx / useHook.tsx
 
 const Main = () => {
-    const { categories_result } = useSelector(
-        (state) => ({
-            categories_result: state.categories_result,
-        }),
-        shallowEqual // 객체 반환할 때 필요
-    );
-    const TOTAL_SLIDES = 2;
-    const [currentSlide, setCurrentSlide] = useState(0);
-    const slideRef = useRef(null);
-    const [cookies, setCookie] = useCookies([]);
-    const [category_data, setcategory_data] = useState(null);
-    const images = ['health', 'movie', 'drama', 'routine', 'food', 'music'];
-
-    const NextSlide = () => {
-        if (currentSlide >= TOTAL_SLIDES) {
-            setCurrentSlide(0);
-        } else {
-            setCurrentSlide(currentSlide + 1);
-        }
-    };
-
-    const PrevSlide = () => {
-        if (currentSlide === 0) {
-            setCurrentSlide(TOTAL_SLIDES);
-        } else {
-            setCurrentSlide(currentSlide - 1);
-        }
-    };
-
-    useEffect(() => {
-        slideRef.current.style.transition = 'all 0.5s ease-in-out';
-        slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
-    }, [currentSlide]);
-
-    useEffect(() => {
-        const appendAPI = async () => {
-            setcategory_data(
-                await axios.get('https://api.digital-hamster.net/categories')
-            );
-        };
-        appendAPI();
-    }, []);
-
+    const {
+        cookies,
+        currentSlide,
+        slideRef,
+        PrevSlide,
+        NextSlide,
+        category_data,
+        images,
+    } = useMain();
     return (
         <>
             <Start>

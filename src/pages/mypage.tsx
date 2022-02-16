@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Mypage from '../components/Mypage/Mypage';
+import Mypage from '../components/Mypage';
 
 const mypage = () => (
     <>

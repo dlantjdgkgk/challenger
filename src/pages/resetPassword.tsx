@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import ResetPassword from '../components/ResetPassword/ResetPassword';
+import ResetPassword from '../components/ResetPassword';
 
 const resetPassword = () => (
     <>

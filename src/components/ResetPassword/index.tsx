@@ -1,33 +1,8 @@
-import { useState, useEffect } from 'react';
 import { Form } from '../style';
-import axios from 'axios';
-import Router from 'next/router';
+import useResetPassword from './useHook';
 
 const ResetPassword = () => {
-    const [email, setEmail] = useState('');
-
-    const handleEmail = (e) => {
-        setEmail(e.target.value);
-    };
-
-    const ResetPasswordAPI = async () => {
-        const payload = {
-            email: email,
-        };
-        const resetPassword = await axios.post(
-            'https://api.digital-hamster.net/reset/password',
-            payload
-        );
-        Router.push('/');
-        console.log(resetPassword);
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setEmail('');
-        ResetPasswordAPI();
-    };
-
+    const { handleSubmit, email, handleEmail } = useResetPassword();
     return (
         <>
             <Form onSubmit={handleSubmit}>

@@ -1,42 +1,11 @@
-import { useState, useEffect } from 'react';
 import { DIV, Start } from '../style';
 import Link from 'next/link';
-import axios from 'axios';
-import Router from 'next/router';
 import { faCheckCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useCookies } from 'react-cookie';
-import { useCacheApi } from 'react-cache-api';
-import jwt from 'jsonwebtoken';
+import useMypage from './useHook';
 
 const Mypage = () => {
-    const [cookies, setCookie, removeCookie] = useCookies([]);
-
-    const Logout = async () => {
-        await removeCookie('token');
-        console.log(cookies);
-    };
-    const token = cookies?.token?.split(' ')[1];
-    const id = jwt.decode(token);
-    const userId = id?.id;
-    console.log(userId);
-
-    const {
-        data: userWrite,
-        error,
-        isValidation,
-    } = useCacheApi(`/users/${userId}`);
-    console.log(userWrite);
-
-    const {
-        data: userParticipant,
-        error: error2,
-        isValidation: inValidation2,
-    } = useCacheApi(`/participants/`, {
-        userId: userId,
-    });
-    console.log(userParticipant);
-
+    const { Logout, userWrite, userParticipant } = useMypage();
     return (
         <>
             <Start>
