@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Form } from './style';
+import { Form } from '../style';
 import axios from 'axios';
 import Router from 'next/router';
 // 임시회원일 때 링크(내가 홈페이지 만들어서 윤아한테 보내주기)가 이메일로 간다 => 사용자가 그걸 눌러 => 나는 AUTH API를 호출한다.

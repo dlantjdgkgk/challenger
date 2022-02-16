@@ -1,40 +1,10 @@
-import { useState, useEffect } from 'react';
-import { Form } from './style';
-import axios from 'axios';
-import Router from 'next/router';
-import { useCookies } from 'react-cookie';
-import jwt from 'jsonwebtoken';
+import { Form } from '../style';
+import useDeleteUser from './useHook';
 
 // 링크 만들 때 토큰 인증 부분이 이상해질수도..
 // useEffect : 게시글 fetch 계속 렌더링 할 필요가 없을 때
 const DeleteUser = () => {
-    const [password, Setpassword] = useState('');
-    const [cookies, setCookie] = useCookies([]);
-
-    const handlePassword = (e) => {
-        Setpassword(e.target.value);
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        withdrawalAPI();
-    };
-
-    const withdrawalAPI = async () => {
-        const payload = {
-            password: password,
-        };
-        const token = cookies.token.split(' ')[1];
-        const id = jwt.decode(token);
-        const userid = id.id; // 77
-
-        const withdrawal = await axios.delete(
-            'https://api.digital-hamster.net/users/' + userid,
-            { data: payload }
-        );
-        Router.push('/');
-    };
-
+    const data = useDeleteUser();
     return (
         <>
             <Form onSubmit={handleSubmit}>

@@ -1,10 +1,9 @@
 import axios from 'axios';
 import Router from 'next/router';
 import { useState, useEffect } from 'react';
-import { Form } from './style';
-import { useSelector, useDispatch } from '../redux/hooks';
+import { useSelector, useDispatch } from '../../redux/hooks';
 import { shallowEqual } from 'react-redux';
-import { updateStart_time, updateTerm } from '../redux/rootReducer';
+import { updateStart_time, updateTerm } from '../../redux/rootReducer';
 
 const Deadline = () => {
     const dispatch = useDispatch(); // 수정

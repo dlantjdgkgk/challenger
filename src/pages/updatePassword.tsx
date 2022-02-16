@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import UpdatePassword from '../components/UpdatePassword';
+import UpdatePassword from '../components/UpdatePassword/UpdatePassword';
 
 const updatePassword = () => (
     <>

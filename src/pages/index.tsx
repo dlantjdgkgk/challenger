@@ -1,4 +1,4 @@
-import Main from '../components/Main';
+import Main from '../components/Main/Main';
 import Head from 'next/head';
 
 const main = () => (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Form } from './style';
+import { Form } from '../style';
 import axios from 'axios';
 import Router from 'next/router';
 

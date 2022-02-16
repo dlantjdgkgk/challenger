@@ -15,13 +15,13 @@ import {
     Popular,
     Start,
     Category,
-} from './style';
+} from '../style';
 import axios from 'axios';
 import Link from 'next/link';
 import { faEdit, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCookies } from 'react-cookie';
-import { useSelector } from '../redux/hooks';
+import { useSelector } from '../../redux/hooks';
 import { shallowEqual } from 'react-redux';
 
 // 모든 페이지 모듈화 하기 index.tsx / style.tsx / useHook.tsx
@@ -38,6 +38,7 @@ const Main = () => {
     const slideRef = useRef(null);
     const [cookies, setCookie] = useCookies([]);
     const [category_data, setcategory_data] = useState(null);
+    const images = ['health', 'movie', 'drama', 'routine', 'food', 'music'];
 
     const NextSlide = () => {
         if (currentSlide >= TOTAL_SLIDES) {
@@ -189,14 +190,14 @@ const Main = () => {
                 <h3>카테고리</h3>
                 <hr style={{ width: '1200px', border: '3px solid gray' }} />
                 <Category>
-                    {category_data?.data?.result.map((categories) => {
+                    {category_data?.data?.result.map((categories, i) => {
                         return (
                             <div className='image'>
                                 <Link
                                     href={`/category?value=${categories.value}`}
                                 >
                                     <img
-                                        src='/health.jpg'
+                                        src={`/${images[i]}.jpg`}
                                         width='190px'
                                         height='150px'
                                         className='category'

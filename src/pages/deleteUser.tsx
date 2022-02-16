@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import DeleteUser from '../components/DeleteUser';
+import DeleteUser from '../components/DeleteUser/DeleteUser';
 
 const deleteuser = () => (
     <>

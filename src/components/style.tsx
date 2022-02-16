@@ -1,5 +1,4 @@
 import styled from 'styled-Components';
-import { DatePicker } from 'react-datepicker';
 
 export const Form = styled.form`
     height: 98vh;
@@ -109,7 +108,6 @@ export const Button = styled.div`
 export const Center = styled.div`
     text-align: center;
 `;
-
 export const Popular = styled.div`
     display: flex;
     flex-direction: row;

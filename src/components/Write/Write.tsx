@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Submit } from './style';
+import { Submit } from '../style';
 import axios from 'axios';
 import Router from 'next/router';
 import Select from 'react-select';
-import Deadline from './Deadline';
-import { useSelector, useDispatch } from '../redux/hooks';
+import Deadline from '../Deadline';
+import { useSelector, useDispatch } from '../../redux/hooks';
 import { shallowEqual } from 'react-redux';
-import { updateCategories_result } from '../redux/rootReducer';
+import { updateCategories_result } from '../../redux/rootReducer';
 import Link from 'next/link';
 import { useCookies } from 'react-cookie';
 import jwt from 'jsonwebtoken';
@@ -112,12 +112,12 @@ const Write = () => {
         formData.append('end_time', end_time);
         formData.append('userId', userId);
         formData.append('img', e.target.img.files[0]);
-        for (let key of formData.keys()) {
-            console.log(key);
-        }
-        for (let value of formData.values()) {
-            console.log(value);
-        }
+        // for (let key of formData.keys()) {
+        //     console.log(key);
+        // }
+        // for (let value of formData.values()) {
+        //     console.log(value);
+        // }
         const writeAPI = async () => {
             const write = await axios.post(
                 'https://api.digital-hamster.net/documents',
