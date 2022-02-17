@@ -7,17 +7,26 @@ import { useCookies } from 'react-cookie';
 import jwt from 'jsonwebtoken';
 import { useRouter } from 'next/router';
 
-const useWrite = () => {
-    const [title, setTitle] = useState('');
-    const [cost, setCost] = useState('');
-    const [result, setResult] = useState(null);
+const useModify = () => {
+    const [title, setTitle] = useState(null);
+    const [cost, setCost] = useState(null);
     const [category_data, setcategory_data] = useState(null);
     const [category, setCategory] = useState(null);
     const [participant, setParticipant] = useState(null);
     const [cookies, setCookie] = useCookies([]);
+    const [imgurl, setImgurl] = useState(null);
     const dispatch = useDispatch();
     const moment = require('moment');
     const router = useRouter();
+
+    console.log(router.query);
+
+    useEffect(() => {
+        if (router.query) {
+            setTitle(router.query.title);
+            setImgurl(router.query.img);
+        }
+    }, [router.query]);
 
     const { start_time, term } = useSelector(
         (state) => ({
@@ -26,8 +35,6 @@ const useWrite = () => {
         }),
         shallowEqual // 객체 반환할 때 필요
     );
-    console.log(cookies);
-
     const token = cookies.token.split(' ')[1];
     const id = jwt.decode(token);
     const userId = id.id;
@@ -72,7 +79,6 @@ const useWrite = () => {
     const handleTitle = (e) => {
         setTitle(e.target.value);
     };
-    // "Cannot destructure property 'buffer' of 'req.file' as it is undefined."
     const handleCost = (e) => {
         setCost(e.target.value);
     };
@@ -99,34 +105,19 @@ const useWrite = () => {
             return;
         }
 
-        const formData: Record<any, any> = new FormData();
-        formData.append('title', title);
-        formData.append('cost', cost);
-        formData.append('category', category.value);
-        formData.append('participant', participant.value);
-        formData.append('start_time', start_time);
-        formData.append('term', term);
-        formData.append('end_time', end_time);
-        formData.append('userId', userId);
-        formData.append('img', e.target.img.files[0]);
-        // for (let key of formData.keys()) {
-        //     console.log(key);
-        // }
-        // for (let value of formData.values()) {
-        //     console.log(value);
-        // }
-        const writeAPI = async () => {
-            const write = await axios.post(
-                'https://api.digital-hamster.net/documents',
-                formData
-            );
-            console.log(write);
-            router.push('/');
-        };
+        // const updateAPI = async () => {
+        //     const payload = new FormData();
+        //     payload.append('img', e.target.img.files[0]);
+        //     payload.append('title', title);
+        //     payload.append('userId', userId);
+        //     await axios.put(
+        //         `https://api.digital-hamster.net/documents/${documentId}`,
+        //         payload
+        //     );
+        // };
         setTitle('');
         setCategory('');
         setCost('');
-        writeAPI();
     };
     return {
         handleSubmit,
@@ -144,4 +135,4 @@ const useWrite = () => {
     };
 };
 
-export default useWrite;
+export default useModify;

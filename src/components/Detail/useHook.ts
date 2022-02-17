@@ -10,7 +10,6 @@ const useDetail = () => {
     const router = useRouter();
     const documentId = router.query.value;
     const [isWriter, setIsWriter] = useState(null);
-    const [result, setResult] = useState(null);
     const [loginUserId, setLoginUserId] = useState(null);
     const [cookies, setCookie] = useCookies([]);
 
@@ -25,6 +24,9 @@ const useDetail = () => {
     const { data, error, isValidation } = useCacheApi(
         `/documents/${documentId}`
     );
+
+    console.log(data);
+
     const start_time = moment(new Date(data?.data?.[0]?.start_time)).format(
         'YYYY-MM-DD'
     );
@@ -72,24 +74,20 @@ const useDetail = () => {
 
     // 게시글 수정
     const handleUpdate = (e) => {
-        const updateAPI = async () => {
-            const payload = new FormData();
-            payload.append('img', data?.data?.[0]?.img);
-            payload.append('title', data?.data?.[0]?.title);
-            await axios.post(
-                `https://api.digital-hamster.net/documents/${documentId}`,
-                payload
-            );
-        };
-        Router.push('/write');
-        updateAPI();
+        Router.push(
+            `/modify?title=${data?.data?.[0]?.title}&img=${data?.data?.[0]?.img}&userId=${data?.data?.[0]?.userId}`
+        );
     };
 
     // 게시글 삭제하기  완료
     const handleDelete = () => {
+        const payload = {
+            userId: loginUserId,
+        };
         const deleteAPI = async () => {
             await axios.delete(
-                `https://api.digital-hamster.net/documents/${documentId}`
+                `https://api.digital-hamster.net/documents/${documentId}`,
+                { data: payload }
             );
         };
         Router.push('/');

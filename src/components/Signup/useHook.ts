@@ -78,7 +78,7 @@ const useSignup = () => {
             'https://api.digital-hamster.net/users',
             payload
         );
-        Router.push('/login');
+        Router.push('/');
         setRes(signup);
     };
     console.log(res);

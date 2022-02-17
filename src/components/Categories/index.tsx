@@ -7,6 +7,8 @@ import useCategories from './useHook';
 
 const Categories = () => {
     const { data } = useCategories();
+    console.log(data);
+
     return (
         <>
             <Popular>

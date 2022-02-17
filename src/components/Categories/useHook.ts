@@ -5,6 +5,11 @@ import { useCacheApi } from 'react-cache-api';
 const useCategories = () => {
     const router = useRouter();
     const currentCategory = router.query.value;
+    // const config = {
+    //     headers: {
+    //     Authorization: `Bearer ${this.token}`
+    //     }
+
     const { data, error, isValidation } = useCacheApi(`/documents`, {
         offset: 0,
         limit: 21,

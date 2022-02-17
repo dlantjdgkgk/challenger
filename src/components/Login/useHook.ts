@@ -52,6 +52,8 @@ const useLogin = () => {
         Router.push('/');
         setRes(login);
     };
+    console.log(res);
+
     return { handleSubmit, handleEmail, handlePw, email, password };
 };
 export default useLogin;
