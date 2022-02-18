@@ -1,24 +1,10 @@
 import { Submit } from '../style';
-import Select from 'react-select';
-import Deadline from '../Deadline';
 import Link from 'next/link';
 import useWrite from './useHook';
 
 const Modify = () => {
-    const {
-        handleSubmit,
-        title,
-        handleTitle,
-        category_data,
-        category,
-        handleCategory,
-        category_Options,
-        participant,
-        handleParticipant,
-        participant_option,
-        cost,
-        handleCost,
-    } = useWrite();
+    const { handleSubmit, title, handleTitle } = useWrite();
+
     return (
         <>
             <Submit method='post' action='/' onSubmit={handleSubmit}>
@@ -43,34 +29,6 @@ const Modify = () => {
                             onChange={handleTitle}
                         />
                     </div>
-                    <div>
-                        <span>항목</span>
-                        {category_data ? (
-                            <Select
-                                value={category}
-                                onChange={handleCategory}
-                                options={category_Options}
-                            />
-                        ) : null}
-                    </div>
-                    <div>
-                        <span>인원</span>
-                        <Select
-                            value={participant}
-                            onChange={handleParticipant}
-                            options={participant_option}
-                        />
-                    </div>
-                    <div>
-                        <span>비용</span>
-                        <input
-                            id='cost'
-                            type='text'
-                            value={cost}
-                            onChange={handleCost}
-                        />
-                    </div>
-                    <Deadline />
                     <div>
                         <br></br>
                         <span className='upload'>업로드</span>

@@ -1,8 +1,6 @@
 import { Form } from '../style';
 import useDeleteUser from './useHook';
 
-// 링크 만들 때 토큰 인증 부분이 이상해질수도..
-// useEffect : 게시글 fetch 계속 렌더링 할 필요가 없을 때
 const DeleteUser = () => {
     const { password, handleSubmit, handlePassword } = useDeleteUser();
     return (

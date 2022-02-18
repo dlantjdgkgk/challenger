@@ -34,7 +34,12 @@ const useUpdatePassword = () => {
 
         const updatePassword = await axios.put(
             `https://api.digital-hamster.net/users/${userid}`,
-            payload
+            payload,
+            {
+                headers: {
+                    Authorization: `${cookies.token}`,
+                },
+            }
         );
         Router.push('/');
     };

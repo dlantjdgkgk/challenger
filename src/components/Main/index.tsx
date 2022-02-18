@@ -14,8 +14,6 @@ import { faEdit, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useMain from './useHook';
 
-// 모든 페이지 모듈화 하기 index.tsx / style.tsx / useHook.tsx
-
 const Main = () => {
     const {
         cookies,

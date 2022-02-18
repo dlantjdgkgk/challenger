@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Router from 'next/router';
+import { useCookies } from 'react-cookie';
 
 const useResetPassword = () => {
     const [email, setEmail] = useState('');
+    const [cookies, setCookies] = useCookies([]);
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -15,7 +17,12 @@ const useResetPassword = () => {
         };
         const resetPassword = await axios.post(
             'https://api.digital-hamster.net/reset/password',
-            payload
+            payload,
+            {
+                headers: {
+                    Authorization: `${cookies.token}`,
+                },
+            }
         );
         Router.push('/');
         console.log(resetPassword);

@@ -22,11 +22,6 @@ const Detail = () => {
                     height='500'
                 ></img>
             )}
-            {/* <img
-                src={`${data?.data?.[0]?.img}`}
-                width='1000'
-                height='500'
-            ></img> */}
             <div>
                 <p>공식 챌린지</p>
                 <p>{data?.data?.[0]?.title}</p>

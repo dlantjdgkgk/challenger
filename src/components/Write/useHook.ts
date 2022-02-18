@@ -26,7 +26,6 @@ const useWrite = () => {
         }),
         shallowEqual // 객체 반환할 때 필요
     );
-    console.log(cookies);
 
     const token = cookies.token.split(' ')[1];
     const id = jwt.decode(token);
@@ -56,8 +55,6 @@ const useWrite = () => {
         { value: 6, label: '6명' },
     ];
     const categories_result = category_data?.data?.result;
-    // console.log(categories_result);
-
     dispatch(updateCategories_result(categories_result));
 
     const category_Options = [
@@ -118,7 +115,12 @@ const useWrite = () => {
         const writeAPI = async () => {
             const write = await axios.post(
                 'https://api.digital-hamster.net/documents',
-                formData
+                formData,
+                {
+                    headers: {
+                        Authorization: `${cookies.token}`,
+                    },
+                }
             );
             console.log(write);
             router.push('/');

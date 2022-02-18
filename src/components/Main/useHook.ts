@@ -1,16 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { useCacheApi } from 'react-cache-api';
 import { useCookies } from 'react-cookie';
-import { useSelector } from '../../redux/hooks';
-import { shallowEqual } from 'react-redux';
 
 const useMain = () => {
-    const { categories_result } = useSelector(
-        (state) => ({
-            categories_result: state.categories_result,
-        }),
-        shallowEqual // 객체 반환할 때 필요
-    );
     const TOTAL_SLIDES = 2;
     const [currentSlide, setCurrentSlide] = useState(0);
     const slideRef = useRef(null);
@@ -39,6 +32,11 @@ const useMain = () => {
         slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
     }, [currentSlide]);
 
+    //인기 게시글 조회
+    const { data, error, isValidation } = useCacheApi(`/popularity`);
+    console.log(data);
+
+    // 카테고리 항목 조회
     useEffect(() => {
         const appendAPI = async () => {
             setcategory_data(

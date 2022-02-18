@@ -15,6 +15,7 @@ const Login = () => {
                     alt='My Image'
                     className='title'
                 ></img>
+                {/* <span>회원가입 하신 분들은 이메일을 확인해주세요!</span> */}
                 <input
                     type='text'
                     placeholder='email'

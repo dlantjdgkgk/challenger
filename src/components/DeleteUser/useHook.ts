@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 
 const useDeleteUser = () => {
     const [password, Setpassword] = useState('');
-    const [cookies, setCookie] = useCookies([]);
+    const [cookies, setCookie, removeCookie] = useCookies([]);
 
     const handlePassword = (e) => {
         Setpassword(e.target.value);
@@ -14,9 +14,11 @@ const useDeleteUser = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        removeCookie('token');
         withdrawalAPI();
     };
 
+    // 회원탈퇴 API
     const withdrawalAPI = async () => {
         const payload = {
             password: password,
@@ -27,7 +29,12 @@ const useDeleteUser = () => {
 
         const withdrawal = await axios.delete(
             'https://api.digital-hamster.net/users/' + userid,
-            { data: payload }
+            {
+                data: payload,
+                headers: {
+                    Authorization: `${cookies.token}`,
+                },
+            }
         );
         Router.push('/');
     };

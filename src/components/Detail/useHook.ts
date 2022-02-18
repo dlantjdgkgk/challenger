@@ -22,7 +22,12 @@ const useDetail = () => {
 
     // 특정 아이디 게시글 조회 완료
     const { data, error, isValidation } = useCacheApi(
-        `/documents/${documentId}`
+        `/documents/${documentId}`,
+        {
+            headers: {
+                Authorization: `${cookies.token}`,
+            },
+        }
     );
 
     console.log(data);
@@ -46,11 +51,16 @@ const useDetail = () => {
         const postAPI = async () => {
             const payload = {
                 userId: loginUserId,
-                documentId: Number(documentId),
+                documentId: documentId,
             };
-            const b = await axios.post(
+            await axios.post(
                 'https://api.digital-hamster.net/participants',
-                payload
+                payload,
+                {
+                    headers: {
+                        Authorization: `${cookies.token}`,
+                    },
+                }
             );
             Router.push('/');
         };
@@ -66,6 +76,9 @@ const useDetail = () => {
             };
             await axios.delete('https://api.digital-hamster.net/participants', {
                 data: payload,
+                headers: {
+                    Authorization: `${cookies.token}`,
+                },
             });
             Router.push('/');
         };
@@ -75,7 +88,7 @@ const useDetail = () => {
     // 게시글 수정
     const handleUpdate = (e) => {
         Router.push(
-            `/modify?title=${data?.data?.[0]?.title}&img=${data?.data?.[0]?.img}&userId=${data?.data?.[0]?.userId}`
+            `/modify?title=${data?.data?.[0]?.title}&img=${data?.data?.[0]?.img}&userId=${data?.data?.[0]?.userId}&documentId=${documentId}`
         );
     };
 
@@ -87,7 +100,12 @@ const useDetail = () => {
         const deleteAPI = async () => {
             await axios.delete(
                 `https://api.digital-hamster.net/documents/${documentId}`,
-                { data: payload }
+                {
+                    data: payload,
+                    headers: {
+                        Authorization: `${cookies.token}`,
+                    },
+                }
             );
         };
         Router.push('/');
