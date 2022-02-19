@@ -1,9 +1,9 @@
 import { Submit } from '../style';
 import Link from 'next/link';
-import useWrite from './useHook';
+import useModify from './useHook';
 
 const Modify = () => {
-    const { handleSubmit, title, handleTitle } = useWrite();
+    const { handleSubmit, title, handleTitle, image } = useModify();
 
     return (
         <>
@@ -37,6 +37,7 @@ const Modify = () => {
                             className='imgInput'
                             accept='image/*'
                             name='img'
+                            ref={image}
                         />
                     </div>
                 </div>

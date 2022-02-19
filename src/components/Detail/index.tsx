@@ -24,10 +24,12 @@ const Detail = () => {
                 </div>
             );
         } else if (isWriter === false) {
-            <div>
-                <button onClick={handleParticipate}>참여하기</button>
-                <button onClick={handleCancell}>참여취소</button>
-            </div>;
+            return (
+                <div>
+                    <button onClick={handleParticipate}>참여하기</button>
+                    <button onClick={handleCancell}>참여취소</button>
+                </div>
+            );
         } else if (isWriter === null) {
             return null;
         }

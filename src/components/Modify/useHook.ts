@@ -3,16 +3,16 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import jwt from 'jsonwebtoken';
 import { useRouter } from 'next/router';
-
+import { useRef } from 'react';
 const useModify = () => {
     const [title, setTitle] = useState(null);
     const [cookies, setCookie] = useCookies([]);
-    const [imgurl, setImgurl] = useState(null);
+    const [imgurl, setImgurl] = useState('');
     const router = useRouter();
-    const token = cookies.token.split(' ')[1];
+    const token = cookies?.token?.split(' ')[1];
     const id = jwt.decode(token);
-    const userId = id.id;
-    console.log(router.query);
+    const userId = id?.id;
+    const image = useRef(null);
 
     useEffect(() => {
         if (router.query) {
@@ -33,7 +33,7 @@ const useModify = () => {
         }
         const updateAPI = async () => {
             const payload = new FormData();
-            payload.append('img', e.target.img.files[0]);
+            payload.append('img', image.current?.files[0]);
             payload.append('title', title);
             payload.append('userId', userId);
             await axios.put(
@@ -55,6 +55,7 @@ const useModify = () => {
         handleSubmit,
         title,
         handleTitle,
+        image,
     };
 };
 

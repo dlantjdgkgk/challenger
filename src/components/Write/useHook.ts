@@ -27,9 +27,9 @@ const useWrite = () => {
         shallowEqual // 객체 반환할 때 필요
     );
 
-    const token = cookies.token.split(' ')[1];
+    const token = cookies?.token?.split(' ')[1];
     const id = jwt.decode(token);
-    const userId = id.id;
+    const userId = id?.id;
 
     const result1 = new Date();
     const res = result1.setDate(result1.getDate() + Number(term));

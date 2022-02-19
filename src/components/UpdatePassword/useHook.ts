@@ -28,7 +28,7 @@ const useUpdatePassword = () => {
             password: password,
             changePw: changePw,
         };
-        const token = cookies.token.split(' ')[1];
+        const token = cookies?.token?.split(' ')[1];
         const id = jwt.decode(token);
         const userid = id.id; // 77
 

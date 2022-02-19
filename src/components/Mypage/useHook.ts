@@ -41,12 +41,17 @@ const useMypage = () => {
         data: userParticipant,
         error: error2,
         isValidation: isValidation2,
-    } = useCacheApi(`/participants/`, {
-        userId: userId,
-        headers: {
-            Authorization: `${cookies.token}`,
+    } = useCacheApi(
+        `/participants`,
+        {
+            userId: userId,
         },
-    });
+        {
+            headers: {
+                Authorization: `${cookies.token}`,
+            },
+        }
+    );
 
     return { Logout, userWrite, userParticipant };
 };

@@ -23,7 +23,7 @@ const useDeleteUser = () => {
         const payload = {
             password: password,
         };
-        const token = cookies.token.split(' ')[1];
+        const token = cookies?.token?.split(' ')[1];
         const id = jwt.decode(token);
         const userid = id.id; // 77
 

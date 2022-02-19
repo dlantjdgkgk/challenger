@@ -28,15 +28,17 @@ const Main = () => {
         NextSlide,
         category_data,
         images,
+        data,
     } = useMain();
     const dispatch = useDispatch();
-
+    console.log(data);
     const { temporaryMember } = useSelector(
         (state) => ({
             temporaryMember: state.temporaryMember,
         }),
         shallowEqual // 객체 반환할 때 필요
     );
+    // console.log(data?.result?.[0]?.img_link);
 
     return (
         <>
@@ -107,66 +109,43 @@ const Main = () => {
                 <h3>인기 추천</h3>
 
                 <Popular>
-                    <div className='image'>
-                        <hr
-                            style={{ width: '100%', border: '3px solid gray' }}
-                        />
-                        <img
-                            src='/health.jpg'
-                            width='400px'
-                            height='300px'
-                            className='popular'
-                        ></img>
-                        <div>
-                            <FontAwesomeIcon icon={faCheckCircle} size='2x' />
-                            <span style={{ padding: '10px' }}>공식 챌린지</span>
-                            <br />
-                            <p>아침 공복에 물 한 잔</p>
-                            <p>모레부터 시작</p>
-                            <span className='text'>매일</span>
-                            <span className='text_box'>2주동안</span>
-                        </div>
-                    </div>
-                    <div className='image'>
-                        <hr
-                            style={{ width: '100%', border: '3px solid gray' }}
-                        />
-                        <img
-                            src='/movie.jpg'
-                            width='400px'
-                            height='300px'
-                            className='popular'
-                        ></img>
-                        <div>
-                            <FontAwesomeIcon icon={faCheckCircle} size='2x' />
-                            <span style={{ padding: '10px' }}>공식 챌린지</span>
-                            <br />
-                            <p>아침 공복에 물 한 잔</p>
-                            <p>모레부터 시작</p>
-                            <span className='text'>매일</span>
-                            <span className='text_box'>2주동안</span>
-                        </div>
-                    </div>
-                    <div className='image'>
-                        <hr
-                            style={{ width: '100%', border: '3px solid gray' }}
-                        />
-                        <img
-                            src='/music.jpg'
-                            width='400px'
-                            height='300px'
-                            className='popular'
-                        ></img>
-                        <div>
-                            <FontAwesomeIcon icon={faCheckCircle} size='2x' />
-                            <span style={{ padding: '10px' }}>공식 챌린지</span>
-                            <br />
-                            <p>아침 공복에 물 한 잔</p>
-                            <p>모레부터 시작</p>
-                            <span className='text'>매일</span>
-                            <span className='text_box'>2주동안</span>
-                        </div>
-                    </div>
+                    {data?.result?.map((a) => {
+                        return (
+                            <div className='image'>
+                                <hr
+                                    style={{
+                                        width: '100%',
+                                        border: '3px solid gray',
+                                    }}
+                                />
+                                <Link href={`/detail?value=${a?.id}`}>
+                                    <img
+                                        src={`${a.img_link}`}
+                                        width='400px'
+                                        height='300px'
+                                        className='popular'
+                                    ></img>
+                                </Link>
+
+                                <div>
+                                    <FontAwesomeIcon
+                                        icon={faCheckCircle}
+                                        size='2x'
+                                    />
+                                    <span style={{ padding: '10px' }}>
+                                        공식 챌린지
+                                    </span>
+                                    <br />
+                                    <p>{a.title}</p>
+                                    <p>모레부터 시작</p>
+                                    <span className='text'>매일</span>
+                                    <span className='text_box'>
+                                        {a.term / 7}주동안
+                                    </span>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </Popular>
 
                 <br></br>
@@ -180,7 +159,7 @@ const Main = () => {
                                     href={`/category?value=${categories.value}`}
                                 >
                                     <img
-                                        src={`/${images[i]}.jpg`}
+                                        src={`${images[i]}.jpg`}
                                         width='190px'
                                         height='150px'
                                         className='category'

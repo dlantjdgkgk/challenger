@@ -45,7 +45,6 @@ const useMain = () => {
 
     //인기 게시글 조회
     const { data, error, isValidation } = useCacheApi(`/documents-popularity`);
-    console.log(data);
 
     // 카테고리 항목 조회
     useEffect(() => {
@@ -64,6 +63,7 @@ const useMain = () => {
         NextSlide,
         category_data,
         images,
+        data,
     };
 };
 
