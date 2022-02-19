@@ -20,25 +20,33 @@ const useMypage = () => {
         data: userWrite,
         error,
         isValidation,
-    } = useCacheApi(`/users/${userId}`, {
-        headers: {
-            Authorization: `${cookies.token}`,
+    } = useCacheApi(
+        () => {
+            if (userId === undefined) {
+                return null;
+            } else {
+                return `/users/${userId}`;
+            }
         },
-    });
-    console.log(userWrite);
+        {},
+        {
+            headers: {
+                Authorization: `${cookies.token}`,
+            },
+        }
+    );
 
     // 참여한 게시글 API
     const {
         data: userParticipant,
         error: error2,
-        isValidation: inValidation2,
+        isValidation: isValidation2,
     } = useCacheApi(`/participants/`, {
         userId: userId,
         headers: {
             Authorization: `${cookies.token}`,
         },
     });
-    console.log(userParticipant);
 
     return { Logout, userWrite, userParticipant };
 };

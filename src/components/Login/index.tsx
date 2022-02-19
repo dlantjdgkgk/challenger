@@ -15,7 +15,6 @@ const Login = () => {
                     alt='My Image'
                     className='title'
                 ></img>
-                {/* <span>회원가입 하신 분들은 이메일을 확인해주세요!</span> */}
                 <input
                     type='text'
                     placeholder='email'
@@ -29,20 +28,10 @@ const Login = () => {
                     value={password}
                     onChange={handlePw}
                 />
-                <ul className='fucntion'>
+                <ul className='function'>
                     <li>
                         <Link href='/signup'>
                             <a>회원가입</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href='/resetPassword'>
-                            <a>비밀번호 초기화</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href='/updatePassword'>
-                            <a>비밀번호 변경</a>
                         </Link>
                     </li>
                 </ul>

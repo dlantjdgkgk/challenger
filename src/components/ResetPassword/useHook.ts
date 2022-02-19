@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 
 const useResetPassword = () => {
     const [email, setEmail] = useState('');
-    const [cookies, setCookies] = useCookies([]);
+    const [cookies, setCookies, removeCookie] = useCookies([]);
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -30,7 +30,7 @@ const useResetPassword = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setEmail('');
+        removeCookie('token');
         ResetPasswordAPI();
     };
     return { handleSubmit, email, handleEmail };

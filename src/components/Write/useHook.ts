@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from '../../redux/hooks';
 import { shallowEqual } from 'react-redux';
-import { updateCategories_result } from '../../redux/rootReducer';
+import { updateCategoriesResult } from '../../redux/rootReducer';
 import { useCookies } from 'react-cookie';
 import jwt from 'jsonwebtoken';
 import { useRouter } from 'next/router';
@@ -19,9 +19,9 @@ const useWrite = () => {
     const moment = require('moment');
     const router = useRouter();
 
-    const { start_time, term } = useSelector(
+    const { startTime, term } = useSelector(
         (state) => ({
-            start_time: state.start_time,
+            startTime: state.startTime,
             term: state.term,
         }),
         shallowEqual // 객체 반환할 때 필요
@@ -31,11 +31,11 @@ const useWrite = () => {
     const id = jwt.decode(token);
     const userId = id.id;
 
-    const result1 = new Date(start_time);
+    const result1 = new Date();
     const res = result1.setDate(result1.getDate() + Number(term));
     const date = moment(new Date(res));
     const end_time = date.format('YYYY-MM-DD');
-    const days = moment(start_time, 'YYYYMMDD').fromNow();
+    const days = moment(startTime, 'YYYYMMDD').fromNow();
     const remaining_days = days.split(' ')[1];
 
     useEffect(() => {
@@ -55,7 +55,7 @@ const useWrite = () => {
         { value: 6, label: '6명' },
     ];
     const categories_result = category_data?.data?.result;
-    dispatch(updateCategories_result(categories_result));
+    dispatch(updateCategoriesResult(categories_result));
 
     const category_Options = [
         { label: 'Health', value: `${categories_result?.[0].value}` },
@@ -69,7 +69,6 @@ const useWrite = () => {
     const handleTitle = (e) => {
         setTitle(e.target.value);
     };
-    // "Cannot destructure property 'buffer' of 'req.file' as it is undefined."
     const handleCost = (e) => {
         setCost(e.target.value);
     };
@@ -91,7 +90,7 @@ const useWrite = () => {
             alert('비용을 입력해주세요');
             return;
         }
-        if (start_time === '') {
+        if (startTime === '') {
             alert('기한을 선택해주세요');
             return;
         }
@@ -101,7 +100,7 @@ const useWrite = () => {
         formData.append('cost', cost);
         formData.append('category', category.value);
         formData.append('participant', participant.value);
-        formData.append('start_time', start_time);
+        formData.append('start_time', startTime);
         formData.append('term', term);
         formData.append('end_time', end_time);
         formData.append('userId', userId);

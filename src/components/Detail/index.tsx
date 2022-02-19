@@ -13,33 +13,41 @@ const Detail = () => {
         handleCancell,
         handleParticipate,
     } = useDetail();
+
+    console.log(data);
+    const validate = () => {
+        if (isWriter === true) {
+            return (
+                <div>
+                    <button onClick={handleUpdate}>수정하기</button>
+                    <button onClick={handleDelete}>삭제하기</button>
+                </div>
+            );
+        } else if (isWriter === false) {
+            <div>
+                <button onClick={handleParticipate}>참여하기</button>
+                <button onClick={handleCancell}>참여취소</button>
+            </div>;
+        } else if (isWriter === null) {
+            return null;
+        }
+    };
+
     return (
         <>
-            {data?.data?.[0]?.img && (
-                <img
-                    src={`${data?.data?.[0]?.img}`}
-                    width='1000'
-                    height='500'
-                ></img>
-            )}
+            <img
+                src={`${data?.result?.img_link}`}
+                width='1000'
+                height='500'
+            ></img>
             <div>
                 <p>공식 챌린지</p>
-                <p>{data?.data?.[0]?.title}</p>
+                <p>{data?.result?.title}</p>
                 <p>매일</p>
                 <p>
                     {start_time} ~ {end_time}
                 </p>
-                {isWriter !== 5 ? (
-                    <div>
-                        <button onClick={handleParticipate}>참여하기</button>
-                        <button onClick={handleCancell}>참여취소</button>
-                    </div>
-                ) : (
-                    <div>
-                        <button onClick={handleUpdate}>수정하기</button>
-                        <button onClick={handleDelete}>삭제하기</button>
-                    </div>
-                )}
+                {validate()}
             </div>
         </>
     );

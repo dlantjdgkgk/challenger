@@ -2,12 +2,10 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
 
 const Auth = () => {
     const router = useRouter();
     const { authcode } = router.query;
-    const [cookies, setCookies] = useCookies([]);
     const [ment, Setment] = useState('로딩중');
 
     // 정식회원 변경 API
@@ -16,12 +14,7 @@ const Auth = () => {
             if (authcode) {
                 try {
                     await axios.post(
-                        `https://api.digital-hamster.net/auths/${authcode}`,
-                        {
-                            headers: {
-                                Authorization: `${cookies.token}`,
-                            },
-                        }
+                        `https://api.digital-hamster.net/auths/${authcode}`
                     );
                     Setment('인증 성공입니다 축하드려요');
                 } catch (ex) {

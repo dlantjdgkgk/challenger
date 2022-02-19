@@ -3,15 +3,15 @@ import moment from 'moment';
 import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useCacheApi } from 'react-cache-api';
-import { useCookies } from 'react-cookie';
 import { getUserIdByToken } from '../../utils/Util';
+import { useCookies } from 'react-cookie';
 
 const useDetail = () => {
     const router = useRouter();
     const documentId = router.query.value;
     const [isWriter, setIsWriter] = useState(null);
     const [loginUserId, setLoginUserId] = useState(null);
-    const [cookies, setCookie] = useCookies([]);
+    const [cookies, setCookies] = useCookies([]);
 
     useEffect(() => {
         if (typeof window !== undefined) {
@@ -22,7 +22,14 @@ const useDetail = () => {
 
     // 특정 아이디 게시글 조회 완료
     const { data, error, isValidation } = useCacheApi(
-        `/documents/${documentId}`,
+        () => {
+            if (documentId === undefined) {
+                return null;
+            } else {
+                return `/documents/${documentId}`;
+            }
+        },
+        {},
         {
             headers: {
                 Authorization: `${cookies.token}`,
@@ -30,19 +37,19 @@ const useDetail = () => {
         }
     );
 
-    console.log(data);
-
-    const start_time = moment(new Date(data?.data?.[0]?.start_time)).format(
+    const start_time = moment(new Date(data?.result?.start_time)).format(
         'YYYY-MM-DD'
     );
 
-    const end_time = moment(new Date(data?.data?.[0]?.end_time)).format(
+    const end_time = moment(new Date(data?.result?.end_time)).format(
         'YYYY-MM-DD'
     );
 
     useEffect(() => {
-        if (loginUserId === data?.data?.[0]?.userId) {
-            setIsWriter(5);
+        if (loginUserId === data?.result?.user_id) {
+            setIsWriter(true);
+        } else {
+            setIsWriter(false);
         }
     }, [data, isWriter, loginUserId]);
 
@@ -88,7 +95,7 @@ const useDetail = () => {
     // 게시글 수정
     const handleUpdate = (e) => {
         Router.push(
-            `/modify?title=${data?.data?.[0]?.title}&img=${data?.data?.[0]?.img}&userId=${data?.data?.[0]?.userId}&documentId=${documentId}`
+            `/modify?title=${data?.result?.title}&img=${data?.result?.img_link}&userId=${data?.result?.user_id}&documentId=${documentId}`
         );
     };
 

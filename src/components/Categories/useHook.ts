@@ -1,13 +1,16 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useCacheApi } from 'react-cache-api';
-import { useCookies } from 'react-cookie';
+// import { useCookies } from 'react-cookie';
 
 const useCategories = () => {
     const router = useRouter();
     const currentCategory = router.query.value;
-    const [cookies, setCookies] = useCookies([]);
-    console.log(cookies.token);
+    console.log(currentCategory);
+
+    // const [cookies, setCookies] = useCookies([]);
+    // console.log(cookies.token);
+    // console.log(currentCategory);
 
     //게시글 전체조회 API
     const { data, error, isValidation } = useCacheApi(`/documents`, {

@@ -1,4 +1,5 @@
 import styled from 'styled-Components';
+import Modal from 'react-modal';
 
 export const Form = styled.form`
     height: 98vh;
@@ -49,6 +50,26 @@ export const Start = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    .writer,
+    .particpant {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex: wrap;
+    }
+    .image1 {
+        margin-left: 100px;
+    }
+    .line {
+        display: flex;
+        flex-direction: column;
+    }
+`;
+
+export const ModalContainer = styled(Modal)`
+    width: 100px;
+    height: 100px;
 `;
 
 export const DIV = styled.div`
@@ -113,6 +134,8 @@ export const Popular = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
 
     hr {
         width: 70%;

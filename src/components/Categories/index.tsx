@@ -12,19 +12,13 @@ const Categories = () => {
     return (
         <>
             <Popular>
-                {data?.data?.map((a) => {
+                {data?.map((a) => {
                     return (
                         <div className='image'>
-                            <hr
-                                style={{
-                                    width: '100%',
-                                    border: '3px solid gray',
-                                }}
-                            />
                             <Link href={`/detail?value=${a?.documentId}`}>
                                 <img
                                     src={`${a?.img}`}
-                                    width='400px'
+                                    width='500px'
                                     height='300px'
                                     className='popular'
                                 />
@@ -49,7 +43,6 @@ const Categories = () => {
                         </div>
                     );
                 })}
-                ;
             </Popular>
         </>
     );

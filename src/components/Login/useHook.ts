@@ -2,22 +2,14 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Router from 'next/router';
 import { useCookies } from 'react-cookie';
-import jwt from 'jsonwebtoken';
+import { useDispatch } from '../../redux/hooks';
+import { updateTemporaryMember } from '../../redux/rootReducer';
 
 const useLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [res, setRes] = useState(null);
     const [cookies, setCookie] = useCookies([]);
-
-    useEffect(() => {
-        if (res?.data?.Token) {
-            setCookie('token', `Bearer ${res?.data?.Token}`);
-            console.log(res?.data?.Token);
-            const a = jwt.decode(res?.data?.Token);
-            console.log(a.id);
-        }
-    }, [res?.data?.Token]);
+    const dispatch = useDispatch();
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -25,6 +17,23 @@ const useLogin = () => {
 
     const handlePw = (e) => {
         setPassword(e.target.value);
+    };
+
+    const loginAPI = async () => {
+        const payload = {
+            email: email,
+            password: password,
+        };
+        const response: any = await axios.post(
+            'https://api.digital-hamster.net/login',
+            payload
+        );
+        if (response?.data?.result?.formalMember === false) {
+            dispatch(updateTemporaryMember(false));
+        }
+        setCookie('token', `Bearer ${response?.data?.result?.Token}`);
+        Router.push('/');
+        console.log(response);
     };
 
     const handleSubmit = (e) => {
@@ -39,20 +48,6 @@ const useLogin = () => {
         setPassword('');
         loginAPI();
     };
-
-    const loginAPI = async () => {
-        const payload = {
-            email: email,
-            password: password,
-        };
-        const login = await axios.post(
-            'https://api.digital-hamster.net/login',
-            payload
-        );
-        Router.push('/');
-        setRes(login);
-    };
-    console.log(res);
 
     return { handleSubmit, handleEmail, handlePw, email, password };
 };

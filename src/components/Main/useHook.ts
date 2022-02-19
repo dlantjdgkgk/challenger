@@ -2,14 +2,25 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useCacheApi } from 'react-cache-api';
 import { useCookies } from 'react-cookie';
+import { useSelector, useDispatch } from '../../redux/hooks';
+import { updateTemporaryMember } from '../../redux/rootReducer';
+import { shallowEqual } from 'react-redux';
 
 const useMain = () => {
-    const TOTAL_SLIDES = 2;
+    const TOTAL_SLIDES = 5;
     const [currentSlide, setCurrentSlide] = useState(0);
     const slideRef = useRef(null);
     const [cookies, setCookie] = useCookies([]);
     const [category_data, setcategory_data] = useState(null);
     const images = ['health', 'movie', 'drama', 'routine', 'food', 'music'];
+    const dispatch = useDispatch(); // 수정
+
+    const { temporaryMember } = useSelector(
+        (state) => ({
+            temporaryMember: state.temporaryMember,
+        }),
+        shallowEqual // 객체 반환할 때 필요
+    );
 
     const NextSlide = () => {
         if (currentSlide >= TOTAL_SLIDES) {
@@ -33,7 +44,7 @@ const useMain = () => {
     }, [currentSlide]);
 
     //인기 게시글 조회
-    const { data, error, isValidation } = useCacheApi(`/popularity`);
+    const { data, error, isValidation } = useCacheApi(`/documents-popularity`);
     console.log(data);
 
     // 카테고리 항목 조회

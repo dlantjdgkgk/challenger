@@ -12,6 +12,7 @@ const useModify = () => {
     const token = cookies.token.split(' ')[1];
     const id = jwt.decode(token);
     const userId = id.id;
+    console.log(router.query);
 
     useEffect(() => {
         if (router.query) {

@@ -1,37 +1,46 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface IState {
-    start_time: string;
+    startTime: string;
     term: string;
-    categories_result: {
+    categoriesResult: {
         description: string;
         value: string;
     }[];
+    temporaryMember: boolean;
 }
 
 const initialState: IState = {
-    start_time: '',
+    startTime: '',
     term: '',
-    categories_result: [],
+    categoriesResult: [],
+    temporaryMember: true,
 };
 
 export const rootReducer = createSlice({
     name: 'rootReducer',
     initialState: initialState,
     reducers: {
-        updateStart_time: (state, { payload }) => {
-            state.start_time = payload;
+        updatestartTime: (state, { payload }) => {
+            state.startTime = payload;
         },
         updateTerm: (state, { payload }) => {
             state.term = payload;
         },
-        updateCategories_result: (state, { payload }) => {
-            state.categories_result = payload;
+        updateCategoriesResult: (state, { payload }) => {
+            state.categoriesResult = payload;
+        },
+        updateTemporaryMember: (state, { payload }) => {
+            state.temporaryMember = payload;
         },
     },
 });
 
-export const { updateStart_time, updateTerm, updateCategories_result } =
-    rootReducer.actions;
+export const {
+    updatestartTime,
+    updateTerm,
+    updateCategoriesResult,
+    updateTemporaryMember,
+} = rootReducer.actions;
 
 export default rootReducer.reducer;

@@ -13,6 +13,11 @@ import Link from 'next/link';
 import { faEdit, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useMain from './useHook';
+import Modal from 'react-modal';
+import { useState } from 'react';
+import { updateTemporaryMember } from '../../redux/rootReducer';
+import { useSelector, useDispatch } from '../../redux/hooks';
+import { shallowEqual } from 'react-redux';
 
 const Main = () => {
     const {
@@ -24,6 +29,15 @@ const Main = () => {
         category_data,
         images,
     } = useMain();
+    const dispatch = useDispatch();
+
+    const { temporaryMember } = useSelector(
+        (state) => ({
+            temporaryMember: state.temporaryMember,
+        }),
+        shallowEqual // 객체 반환할 때 필요
+    );
+
     return (
         <>
             <Start>
@@ -50,24 +64,39 @@ const Main = () => {
                         )}
                     </ul>
                 </DIV>
+
+                <Modal
+                    isOpen={!temporaryMember}
+                    onRequestClose={() => dispatch(updateTemporaryMember(true))}
+                >
+                    <p>
+                        회원가입후 정식회원 이용하는 법 : 이메일을 확인해주세요
+                    </p>
+                </Modal>
+
                 <Container>
                     <Text>
-                        <p>{currentSlide + 1}/3</p>
+                        <p>{currentSlide + 1}/6</p>
                     </Text>
                     <SliderContainer ref={slideRef}>
                         <SliderContainer>
-                            <div>
-                                <a href='/confirm'>
-                                    <img
-                                        src='/capture.png'
-                                        width='1000'
-                                        height='500'
-                                        className='capture'
-                                    ></img>
-                                </a>
-                            </div>
-                            <img src='/2.png' width='1000' height='500'></img>
-                            <img src='/3.png' width='1000' height='500'></img>
+                            {category_data?.data?.result.map(
+                                (categories, i) => {
+                                    return (
+                                        <div>
+                                            <Link
+                                                href={`/category?value=${categories.value}`}
+                                            >
+                                                <img
+                                                    src={`/${images[i]}.jpg`}
+                                                    width='1000'
+                                                    height='500'
+                                                ></img>
+                                            </Link>
+                                        </div>
+                                    );
+                                }
+                            )}
                         </SliderContainer>
                     </SliderContainer>
                     <Center>
@@ -172,6 +201,3 @@ const Main = () => {
 };
 
 export default Main;
-function dispatch() {
-    throw new Error('Function not implemented.');
-}

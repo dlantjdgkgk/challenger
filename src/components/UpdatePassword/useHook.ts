@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 const useUpdatePassword = () => {
     const [password, setPassword] = useState('');
     const [changePw, setchangePw] = useState('');
-    const [cookies, setCookie] = useCookies([]);
+    const [cookies, setCookie, removeCookie] = useCookies([]);
 
     const handlePassword = (e) => {
         setPassword(e.target.value);
@@ -19,7 +19,7 @@ const useUpdatePassword = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setPassword('');
+        removeCookie('token');
         UpdatePasswordAPI();
     };
 

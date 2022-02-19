@@ -1,20 +1,18 @@
-import axios from 'axios';
-import Router from 'next/router';
-import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from '../../redux/hooks';
 import { shallowEqual } from 'react-redux';
-import { updateStart_time, updateTerm } from '../../redux/rootReducer';
+import { updatestartTime, updateTerm } from '../../redux/rootReducer';
 
 const Deadline = () => {
     const dispatch = useDispatch(); // 수정
 
-    const { start_time, term } = useSelector(
+    const { startTime, term } = useSelector(
         (state) => ({
-            start_time: state.start_time,
+            startTime: state.startTime,
             term: state.term,
         }),
         shallowEqual // 객체 반환할 때 필요
     );
+
     return (
         <>
             <div>
@@ -23,10 +21,10 @@ const Deadline = () => {
                 <input
                     type='date'
                     id='start'
-                    min='2022-02-14'
+                    min='2022-02-20'
                     max=''
-                    value={start_time}
-                    onChange={(e) => dispatch(updateStart_time(e.target.value))}
+                    value={startTime}
+                    onChange={(e) => dispatch(updatestartTime(e.target.value))}
                 />
                 <label>
                     Pick your deadline for the challenge:
