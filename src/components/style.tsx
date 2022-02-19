@@ -1,4 +1,4 @@
-import styled from 'styled-Components';
+import styled from 'styled-components';
 import Modal from 'react-modal';
 
 export const Form = styled.form`
