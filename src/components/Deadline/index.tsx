@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from '../../redux/hooks';
 import { shallowEqual } from 'react-redux';
 import { updatestartTime, updateTerm } from '../../redux/rootReducer';
+import { useEffect } from 'react';
 
 const Deadline = () => {
     const dispatch = useDispatch(); // 수정
@@ -12,6 +13,11 @@ const Deadline = () => {
         }),
         shallowEqual // 객체 반환할 때 필요
     );
+
+    useEffect(() => {
+        dispatch(updatestartTime(''));
+        dispatch(updateTerm(''));
+    }, []);
 
     return (
         <>

@@ -70,8 +70,15 @@ export const Start = styled.div`
 `;
 
 export const ModalContainer = styled(Modal)`
-    width: 100px;
-    height: 100px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const DIV = styled.div`

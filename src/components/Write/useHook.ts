@@ -18,6 +18,7 @@ const useWrite = () => {
     const dispatch = useDispatch();
     const moment = require('moment');
     const router = useRouter();
+    const [ment, Setment] = useState('');
 
     const { startTime, term } = useSelector(
         (state) => ({
@@ -36,9 +37,6 @@ const useWrite = () => {
     const date = moment(new Date(res));
     const end_time = date.format('YYYY-MM-DD');
     console.log(end_time);
-
-    const days = moment(startTime, 'YYYYMMDD').fromNow();
-    const remaining_days = days.split(' ')[1];
 
     useEffect(() => {
         const appendAPI = async () => {
@@ -114,16 +112,21 @@ const useWrite = () => {
         //     console.log(value);
         // }
         const writeAPI = async () => {
-            const write = await axios.post(
-                'https://api.digital-hamster.net/documents',
-                formData,
-                {
-                    headers: {
-                        Authorization: `${cookies.token}`,
-                    },
+            try {
+                const write = await axios.post(
+                    'https://api.digital-hamster.net/documents',
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `${cookies.token}`,
+                        },
+                    }
+                );
+            } catch (ex) {
+                if (ex.response && ex.response.status === 400) {
+                    alert(ex?.response?.data?.message);
                 }
-            );
-            console.log(write);
+            }
             router.push('/');
         };
         setTitle('');

@@ -71,10 +71,10 @@ const Main = () => {
                     isOpen={!temporaryMember}
                     onRequestClose={() => dispatch(updateTemporaryMember(true))}
                 >
-                    <p>
+                    <h1>
                         회원가입후 정식회원 이용하는 법 : 가입한 이메일을
                         확인해주세요
-                    </p>
+                    </h1>
                 </Modal>
 
                 <Container>
