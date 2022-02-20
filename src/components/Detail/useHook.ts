@@ -37,6 +37,8 @@ const useDetail = () => {
         }
     );
 
+    console.log(data);
+
     const start_time = moment(new Date(data?.result?.start_time)).format(
         'YYYY-MM-DD'
     );

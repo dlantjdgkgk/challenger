@@ -50,8 +50,7 @@ export const Start = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    .writer,
-    .particpant {
+    .writer {
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -61,9 +60,12 @@ export const Start = styled.div`
     .image1 {
         margin-left: 100px;
     }
-    .line {
+    .particpant {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex: wrap;
     }
 `;
 
@@ -92,6 +94,7 @@ export const Container = styled.div`
     height: 800px;
     overflow: hidden;
 `;
+
 export const Text = styled.div`
     text-align: center;
     color: burlywood;
@@ -105,6 +108,7 @@ export const Text = styled.div`
         margin-left: 900px;
     }
 `;
+
 export const SliderContainer = styled.div`
     margin: 0 auto;
     margin-bottom: 2em;
@@ -113,6 +117,7 @@ export const SliderContainer = styled.div`
         margin-top: 50px;
     }
 `;
+
 export const Button = styled.div`
     all: unset;
     padding: 1em 2em;

@@ -31,10 +31,12 @@ const useWrite = () => {
     const id = jwt.decode(token);
     const userId = id?.id;
 
-    const result1 = new Date();
+    const result1 = new Date(startTime);
     const res = result1.setDate(result1.getDate() + Number(term));
     const date = moment(new Date(res));
     const end_time = date.format('YYYY-MM-DD');
+    console.log(end_time);
+
     const days = moment(startTime, 'YYYYMMDD').fromNow();
     const remaining_days = days.split(' ')[1];
 

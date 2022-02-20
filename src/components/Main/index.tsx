@@ -72,7 +72,8 @@ const Main = () => {
                     onRequestClose={() => dispatch(updateTemporaryMember(true))}
                 >
                     <p>
-                        회원가입후 정식회원 이용하는 법 : 이메일을 확인해주세요
+                        회원가입후 정식회원 이용하는 법 : 가입한 이메일을
+                        확인해주세요
                     </p>
                 </Modal>
 
