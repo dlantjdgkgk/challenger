@@ -14,11 +14,21 @@ import { faEdit, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useMain from './useHook';
 import Modal from 'react-modal';
-import { useState } from 'react';
 import { updateTemporaryMember } from '../../redux/rootReducer';
 import { useSelector, useDispatch } from '../../redux/hooks';
 import { shallowEqual } from 'react-redux';
 
+const customStyles = {
+    content: {
+        top: '30%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        backgroundColor: 'white',
+    },
+};
 const Main = () => {
     const {
         cookies,
@@ -31,14 +41,12 @@ const Main = () => {
         data,
     } = useMain();
     const dispatch = useDispatch();
-    console.log(data);
     const { temporaryMember } = useSelector(
         (state) => ({
             temporaryMember: state.temporaryMember,
         }),
         shallowEqual // 객체 반환할 때 필요
     );
-    // console.log(data?.result?.[0]?.img_link);
 
     return (
         <>
@@ -70,11 +78,12 @@ const Main = () => {
                 <Modal
                     isOpen={!temporaryMember}
                     onRequestClose={() => dispatch(updateTemporaryMember(true))}
+                    style={customStyles}
                 >
-                    <h1>
+                    <h3>
                         회원가입후 정식회원 이용하는 법 : 가입한 이메일을
                         확인해주세요
-                    </h1>
+                    </h3>
                 </Modal>
 
                 <Container>
@@ -138,7 +147,6 @@ const Main = () => {
                                     </span>
                                     <br />
                                     <p>{a.title}</p>
-                                    <p>모레부터 시작</p>
                                     <span className='text'>매일</span>
                                     <span className='text_box'>
                                         {a.term / 7}주동안
