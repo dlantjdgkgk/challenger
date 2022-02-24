@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useCacheApi } from 'react-cache-api';
 
@@ -6,7 +5,6 @@ const useCategories = () => {
     const router = useRouter();
     const currentCategory = router.query.value;
     console.log(currentCategory);
-    const [ment, Setment] = useState('');
 
     //게시글 전체조회 API
     const {
